@@ -7,8 +7,18 @@ module.exports =
 
 const core = __webpack_require__(864);
 const github = __webpack_require__(366);
+const fs = __webpack_require__(747);
 
 try {
+    const buildScanUrlFile = 'build-scan.url';
+    if (fs.existsSync(buildScanUrlFile)) {
+        core.info(`Input file ${buildScanUrlFile} exists`)
+        const content = fs.readFileSync(buildScanUrlFile,'utf-8')
+        core.info(`Scan URL: ${content}`)
+    } else {
+        core.info(`Input file ${buildScanUrlFile} does not exist`)
+    }
+
     // `who-to-greet` input defined in action metadata file
     const nameToGreet = core.getInput('who-to-greet');
     console.log(`Hello ${nameToGreet}!`);
