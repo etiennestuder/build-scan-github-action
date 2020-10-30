@@ -1,0 +1,24 @@
+{
+  "name": "build-scan-github-action",
+  "version": "0.0.1",
+  "description": "Github action to prominently expose the build scan URL.",
+  "main": "index.js",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etiennestuder/build-scan-github-action.git"
+  },
+  "author": "Etienne Studer",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/etiennestuder/build-scan-github-action/issues"
+  },
+  "homepage": "https://github.com/etiennestuder/build-scan-github-action#README"
+}
