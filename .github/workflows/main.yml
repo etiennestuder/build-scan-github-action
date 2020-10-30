@@ -7,7 +7,7 @@ jobs:
         steps:
             -   name: Hello world action step
                 id: hello
-                uses: actions/build-scan-github-action@v0.0.1
+                uses: etiennestuder/build-scan-github-action@v0.0.1
                 with:
                     who-to-greet: 'Etienne'
             # Use the output from the `hello` step
