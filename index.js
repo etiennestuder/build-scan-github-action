@@ -1,12 +1,16 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
+const path = require('path');
 
 try {
+    let scanPath = path.resolve('build-scan.url');
+    core.info(`Full path is ${scanPath}`);
+
     const buildScanUrlFile = 'build-scan.url';
     if (fs.existsSync(buildScanUrlFile)) {
         core.info(`Input file ${buildScanUrlFile} exists`)
-        const content = fs.readFileSync(buildScanUrlFile,'utf-8')
+        const content = fs.readFileSync(buildScanUrlFile, 'utf-8');
         core.info(`Scan URL: ${content}`)
     } else {
         core.info(`Input file ${buildScanUrlFile} does not exist`)
