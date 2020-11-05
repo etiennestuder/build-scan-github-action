@@ -1,9 +1,10 @@
+name: "Integration Tests"
 on: [ push ]
 
 jobs:
-    hello_world_job:
+    test_job:
         runs-on: ubuntu-latest
-        name: A job to say hello
+        name: Test
         steps:
             -   id: checkout
                 name: Check out project
