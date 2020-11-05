@@ -10,7 +10,7 @@ jobs:
                 name: Check out project
                 uses: actions/checkout@v2
             -   id: build-scan
-                name: Capture build scan info
+                name: Extract build scan link
                 uses: ./
                 with:
                     build-scans-path: './__tests__/data/single-build-scan'
