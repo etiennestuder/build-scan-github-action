@@ -16,6 +16,43 @@ try {
     } else {
         core.info(`File ${buildScansPath} does not exist`)
     }
+
+    const octokit = github.getOctokit(core.getInput('token'))
+
+    const r = await octokit.checks.create({
+        owner: github.context.repo.owner,
+        repo: github.context.repo,
+        name: 'Build scans',
+        head_sha: github.context.payload.pull_request?.head.sha ?? github.context.sha,
+        status: 'in_progress'
+    });
+    core.info(`Response: ${r}`)
+
+    // var gh = new GitHub({
+    //     username: 'FOO',
+    //     password: 'NotFoo'
+    //     /* also acceptable:
+    //        token: 'MY_OAUTH_TOKEN'
+    //      */
+    // });
+    //
+    // this.client = (new github.GitHub({
+    //   auth: token,
+    // }) as unknown) as Octokit
+    // this.context = github.context
+    // this.owner = this.context.repo.owner
+    // this.repo = this.context.repo.repo
+    // this.sha = this.context.payload.pull_request?.head.sha ?? this.context.sha
+    //
+    // const response = await this.client.checks.create({
+    //     owner,
+    //     repo,
+    //     name,
+    //     head_sha: sha,
+    //     status: 'in_progress',
+    // })
+
+    this.check = response.data
 } catch (error) {
     core.setFailed(error.message);
 }
