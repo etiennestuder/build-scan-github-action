@@ -19,7 +19,7 @@ try {
 
     const octokit = github.getOctokit(core.getInput('token'))
 
-    const r = await octokit.checks.create({
+    const r = octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo,
         name: 'Build scans',
