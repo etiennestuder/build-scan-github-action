@@ -14,28 +14,15 @@ try {
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || ''
     core.info(`Base directory ${baseDirectory}`)
 
-    let ddd = path.resolve(baseDirectory, core.getInput('build-scan-path'));
-    core.info(`Resolved: ${ddd}`)
+    const buildScansPath = path.resolve(baseDirectory, core.getInput('build-scans-path'));
 
-    const exists = fs.existsSync(ddd)
-    core.info(`Exists: ${exists}`)
-
-    const buildScanPath = core.getInput('build-scan-path');
-    if (fs.existsSync(buildScanPath)) {
-        core.info(`Build scan path ${buildScanPath} exists`)
-        const content = fs.readFileSync(buildScanPath, 'utf-8');
-        core.info(`Scan URL: ${content}`)
+    if (fs.existsSync(buildScansPath)) {
+        core.info(`Reading file ${buildScansPath}`)
+        const content = fs.readFileSync(buildScansPath, 'utf-8');
+        core.info(`File content: ${content}`)
     } else {
-        core.info(`Build scan path ${buildScanPath} does not exist`)
+        core.info(`File ${buildScansPath} does not exist`)
     }
-
-    const time = (new Date()).toTimeString();
-    core.setOutput('build-scan-url', 'https://ge.com/456123');
-    core.setOutput('build-outcome', 'SUCCESS');
-
-    // Get the JSON webhook payload for the event that triggered the workflow
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`);
 } catch (error) {
     core.setFailed(error.message);
 }
