@@ -11,24 +11,18 @@ const fs = __webpack_require__(747);
 const path = __webpack_require__(622);
 
 try {
-    let scanPath = __webpack_require__.ab + "build-scan.url";
-    core.info(`Full path is ${scanPath}`);
-
-    const buildScanUrlFile = 'build-scan.url';
-    if (fs.existsSync(buildScanUrlFile)) {
-        core.info(`Input file ${buildScanUrlFile} exists`)
-        const content = fs.readFileSync(buildScanUrlFile, 'utf-8');
+    const buildScanPath = core.getInput('build-scan-path');
+    if (fs.existsSync(buildScanPath)) {
+        core.info(`Build scan path ${buildScanPath} exists`)
+        const content = fs.readFileSync(buildScanPath, 'utf-8');
         core.info(`Scan URL: ${content}`)
     } else {
-        core.info(`Input file ${buildScanUrlFile} does not exist`)
+        core.info(`Build scan path ${buildScanPath} does not exist`)
     }
 
-    // `who-to-greet` input defined in action metadata file
-    const nameToGreet = core.getInput('who-to-greet');
-    console.log(`Hello ${nameToGreet}!`);
-
     const time = (new Date()).toTimeString();
-    core.setOutput('time', time);
+    core.setOutput('build-scan-url', 'https://ge.com/456123');
+    core.setOutput('build-outcome', 'SUCCESS');
 
     // Get the JSON webhook payload for the event that triggered the workflow
     const payload = JSON.stringify(github.context.payload, undefined, 2)
