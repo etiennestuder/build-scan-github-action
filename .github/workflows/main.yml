@@ -5,13 +5,14 @@ jobs:
         runs-on: ubuntu-latest
         name: A job to say hello
         steps:
-            -   name: Check out project
+            -   id: checkout
+                name: Check out project
                 uses: actions/checkout@v2
-            -   name: Capture build scan info
-                id: hello
+            -   id: build-scan
+                name: Capture build scan info
                 uses: etiennestuder/build-scan-github-action@development
                 with:
                     build-scan-path: './build-scan-info'
-            # Use the output from the `hello` step
-            -   name: Get the output time
-                run: echo "The time was ${{ steps.hello.outputs.build-scan-url }}"
+            -   id: log
+                name: Log captured build scan link
+                run: echo "Build outcome is ${{ steps.build-scan.outputs.build-outcome }} and build scan is ${{ steps.build-scan.outputs.build-scan-url }}"
