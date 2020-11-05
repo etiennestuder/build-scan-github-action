@@ -7,13 +7,13 @@ try {
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || ''
     core.info(`Base directory ${baseDirectory}`)
 
-    let ddd = path.resolve(baseDirectory, core.getInput('build-scan-path'));
+    let ddd = path.resolve(baseDirectory, core.getInput('build-scans-path'));
     core.info(`Resolved: ${ddd}`)
 
     const exists = fs.existsSync(ddd)
     core.info(`Exists: ${exists}`)
 
-    const buildScanPath = core.getInput('build-scan-path');
+    const buildScanPath = core.getInput('build-scans-path');
     if (fs.existsSync(buildScanPath)) {
         core.info(`Build scan path ${buildScanPath} exists`)
         const content = fs.readFileSync(buildScanPath, 'utf-8');
@@ -22,7 +22,6 @@ try {
         core.info(`Build scan path ${buildScanPath} does not exist`)
     }
 
-    const time = (new Date()).toTimeString();
     core.setOutput('build-scan-url', 'https://ge.com/456123');
     core.setOutput('build-outcome', 'SUCCESS');
 

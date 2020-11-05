@@ -13,7 +13,7 @@ jobs:
                 name: Capture build scan info
                 uses: ./
                 with:
-                    build-scan-path: './build-scan-info'
+                    build-scans-path: './build-scans'
             -   id: log
                 name: Log captured build scan link
                 run: echo "Build outcome is ${{ steps.build-scan.outputs.build-outcome }} and build scan is ${{ steps.build-scan.outputs.build-scan-url }}"
