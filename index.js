@@ -7,6 +7,10 @@ try {
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || ''
     core.info(`Base directory ${baseDirectory}`)
 
+    let ddd = path.resolve(baseDirectory, core.getInput('build-scan-path'));
+    const exists = fs.existsSync(ddd)
+    core.info(`Exists: ${exists}`)
+
     const buildScanPath = core.getInput('build-scan-path');
     if (fs.existsSync(buildScanPath)) {
         core.info(`Build scan path ${buildScanPath} exists`)
