@@ -1,13 +1,15 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Build scan annotation'
+description: 'Surfaces the build scan of a Gradle build as a workflow annotation'
 inputs:
-    who-to-greet: # id of input
-        description: 'Who to greet'
+    build-scan-path:
+        description: 'Path to the file containing build scan URL and build outcome'
         required: true
-        default: 'World'
+        default: './build-scan-info.todo'
 outputs:
-    time: # id of output
-        description: 'The time we greeted you'
+    build-scan-url:
+        description: 'The URL of the build scan'
+    build-outcome:
+        description: 'The outcome of the build'
 runs:
     using: 'node12'
     main: 'dist/index.js'
