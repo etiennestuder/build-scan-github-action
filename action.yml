@@ -1,15 +1,10 @@
-name: 'Build scan annotation'
-description: 'Surfaces the build scan of a Gradle build as a workflow annotation'
+name: 'Build scan annotations'
+description: 'Surfaces the build scan links of Gradle builds as workflow annotations.'
 inputs:
     build-scans-path:
-        description: 'Path to the file containing build scan URLs and build outcomes'
+        description: 'Path to the file containing the build scan URLs and optionally the build outcomes.'
         required: true
-        default: './build-scans.todo'
-outputs:
-    build-scan-url:
-        description: 'The URL of the build scan'
-    build-outcome:
-        description: 'The outcome of the build'
+        default: './build-scans'
 runs:
     using: 'node12'
     main: 'dist/index.js'
