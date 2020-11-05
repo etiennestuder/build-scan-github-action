@@ -11,7 +11,7 @@ jobs:
                 uses: actions/checkout@v2
             -   id: build-scan
                 name: Capture build scan info
-                uses: etiennestuder/build-scan-github-action@development
+                uses: ./
                 with:
                     build-scan-path: './build-scan-info'
             -   id: log
