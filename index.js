@@ -23,10 +23,10 @@ try {
         owner: github.context.repo.owner,
         repo: github.context.repo,
         name: 'Build scans',
-        head_sha: github.context.payload.pull_request?.head.sha ?? github.context.sha,
+        head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
         status: 'in_progress'
     });
-    r.then(x => `Response: ${x}`)
+    r.then(x => core.info(`Response: ${x}`))
 
     // var gh = new GitHub({
     //     username: 'FOO',
