@@ -24,6 +24,10 @@ try {
             error: console.error
         },})
 
+    console.info(`Owner: ${github.context.repo.owner}`)
+    console.info(`Repo: ${github.context.repo}`)
+    console.info(`SHA: ${github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha}`)
+
     const r = octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo,
