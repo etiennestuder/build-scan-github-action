@@ -30,7 +30,7 @@ try {
 
     const r = octokit.checks.create({
         owner: github.context.repo.owner,
-        repo: github.context.repo,
+        repo: github.context.repo.repo,
         name: 'Build scans',
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
         status: 'in_progress'
