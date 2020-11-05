@@ -13,4 +13,4 @@ jobs:
                 name: Capture build scan info
                 uses: ./
                 with:
-                    build-scans-path: './build-scans'
+                    build-scans-path: './__tests__/data/single-build-scan'
