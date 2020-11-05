@@ -8,6 +8,8 @@ try {
     core.info(`Base directory ${baseDirectory}`)
 
     let ddd = path.resolve(baseDirectory, core.getInput('build-scan-path'));
+    core.info(`Resolved: ${ddd}`)
+
     const exists = fs.existsSync(ddd)
     core.info(`Exists: ${exists}`)
 
