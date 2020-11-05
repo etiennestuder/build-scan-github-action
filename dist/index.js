@@ -3,7 +3,7 @@ module.exports =
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 932:
-/***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 const core = __webpack_require__(186);
 const github = __webpack_require__(438);
@@ -63,8 +63,6 @@ try {
     //     head_sha: sha,
     //     status: 'in_progress',
     // })
-
-    this.check = response.data
 } catch (error) {
     core.setFailed(error.message);
 }
