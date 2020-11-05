@@ -14,3 +14,4 @@ jobs:
                 uses: ./
                 with:
                     build-scans-path: './__tests__/data/single-build-scan'
+                    token: ${{ secrets.GITHUB_TOKEN }}

@@ -5,6 +5,10 @@ inputs:
         description: 'Path to the file containing the build scan URLs and optionally the build outcomes.'
         required: true
         default: './build-scans'
+    token:
+        description: 'Github authentication token with permission to create a check run.'
+        required: true
+        default: null
 runs:
     using: 'node12'
     main: 'dist/index.js'
