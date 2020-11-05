@@ -56,8 +56,6 @@ try {
     //     head_sha: sha,
     //     status: 'in_progress',
     // })
-
-    this.check = response.data
 } catch (error) {
     core.setFailed(error.message);
 }
