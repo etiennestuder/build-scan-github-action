@@ -11,6 +11,9 @@ const fs = __webpack_require__(747);
 const path = __webpack_require__(622);
 
 try {
+    const baseDirectory = process.env[`GITHUB_WORKSPACE`] || ''
+    core.info(`Base directory ${baseDirectory}`)
+
     const buildScanPath = core.getInput('build-scan-path');
     if (fs.existsSync(buildScanPath)) {
         core.info(`Build scan path ${buildScanPath} exists`)
