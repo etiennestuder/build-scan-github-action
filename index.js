@@ -26,7 +26,7 @@ try {
         head_sha: github.context.payload.pull_request?.head.sha ?? github.context.sha,
         status: 'in_progress'
     });
-    core.info(`Response: ${r}`)
+    r.then(x => `Response: ${x}`)
 
     // var gh = new GitHub({
     //     username: 'FOO',

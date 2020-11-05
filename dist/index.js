@@ -3,7 +3,7 @@ module.exports =
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 932:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
 
 const core = __webpack_require__(186);
 const github = __webpack_require__(438);
@@ -23,6 +23,43 @@ try {
     } else {
         core.info(`File ${buildScansPath} does not exist`)
     }
+
+    const octokit = github.getOctokit(core.getInput('token'))
+
+    const r = octokit.checks.create({
+        owner: github.context.repo.owner,
+        repo: github.context.repo,
+        name: 'Build scans',
+        head_sha: github.context.payload.pull_request?.head.sha ?? github.context.sha,
+        status: 'in_progress'
+    });
+    r.then(x => `Response: ${x}`)
+
+    // var gh = new GitHub({
+    //     username: 'FOO',
+    //     password: 'NotFoo'
+    //     /* also acceptable:
+    //        token: 'MY_OAUTH_TOKEN'
+    //      */
+    // });
+    //
+    // this.client = (new github.GitHub({
+    //   auth: token,
+    // }) as unknown) as Octokit
+    // this.context = github.context
+    // this.owner = this.context.repo.owner
+    // this.repo = this.context.repo.repo
+    // this.sha = this.context.payload.pull_request?.head.sha ?? this.context.sha
+    //
+    // const response = await this.client.checks.create({
+    //     owner,
+    //     repo,
+    //     name,
+    //     head_sha: sha,
+    //     status: 'in_progress',
+    // })
+
+    this.check = response.data
 } catch (error) {
     core.setFailed(error.message);
 }
