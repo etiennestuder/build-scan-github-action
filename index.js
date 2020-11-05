@@ -17,7 +17,12 @@ try {
         core.info(`File ${buildScansPath} does not exist`)
     }
 
-    const octokit = github.getOctokit(core.getInput('token'))
+    const octokit = github.getOctokit(core.getInput('token'), {userAgent : "ddd", log: {
+            debug: console.debug,
+            info: console.info,
+            warn: console.warn,
+            error: console.error
+        },})
 
     const r = octokit.checks.create({
         owner: github.context.repo.owner,
