@@ -5,6 +5,8 @@ jobs:
         runs-on: ubuntu-latest
         name: A job to say hello
         steps:
+            -   name: Check out project
+                uses: actions/checkout@v2
             -   name: Capture build scan info
                 id: hello
                 uses: etiennestuder/build-scan-github-action@development
