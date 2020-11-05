@@ -14,4 +14,3 @@ jobs:
                 uses: ./
                 with:
                     build-scans-path: './build-scans'
-
