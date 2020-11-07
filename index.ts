@@ -19,19 +19,27 @@ async function main(): Promise<void> {
     }
 
     const octokit = github.getOctokit(token)
-    const r = await octokit.checks.create({
+    const createResponse = await octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         name: 'Build scans',
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
-        status: 'in_progress'
+        details_url: 'https://www.gradle.com',
+        status: 'completed',
+        conclusion: 'success',
+        output: {
+            title: `Some title`,
+            summary: `Build scan captured`,
+            text: `Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`
+        }
     });
 
-    const data = r.data;
-    core.info(`Response: ${data}`)
+    const data = createResponse.data;
+    const checksId = data.id;
+    const checksName = data.name;
 
-    core.info(`Id: ${data.id}`)
-    core.info(`Name: ${data.name}`)
+    core.info(`Id: ${checksId}`)
+    core.info(`Name: ${checksName}`)
 }
 
 main().catch(error => {
