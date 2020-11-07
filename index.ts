@@ -24,8 +24,9 @@ async function main(): Promise<void> {
         repo: github.context.repo.repo,
         name: 'Build scans',
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
+        details_url: 'https://www.gradle.com',
         status: 'completed',
-        conclusion: 'neutral',
+        conclusion: 'action_required',
         actions: [{
             label: 'some label',
             description: 'some description',
