@@ -5857,7 +5857,7 @@ function main() {
                             name: 'Build scans',
                             head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
                             status: 'completed',
-                            conclusion: 'success',
+                            conclusion: 'neutral',
                             actions: [{
                                     label: 'some label',
                                     description: 'some description',
