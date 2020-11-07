@@ -5833,7 +5833,7 @@ var fs = __webpack_require__(747);
 var path = __webpack_require__(622);
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, octokit, r, data;
+        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, octokit, createResponse, data, checksId, checksName;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -5856,14 +5856,22 @@ function main() {
                             repo: github.context.repo.repo,
                             name: 'Build scans',
                             head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
-                            status: 'in_progress'
+                            details_url: 'https://www.gradle.com',
+                            status: 'completed',
+                            conclusion: 'success',
+                            output: {
+                                title: "Some title",
+                                summary: "Build scan captured",
+                                text: "Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)"
+                            }
                         })];
                 case 1:
-                    r = _a.sent();
-                    data = r.data;
-                    core.info("Response: " + data);
-                    core.info("Id: " + data.id);
-                    core.info("Name: " + data.name);
+                    createResponse = _a.sent();
+                    data = createResponse.data;
+                    checksId = data.id;
+                    checksName = data.name;
+                    core.info("Id: " + checksId);
+                    core.info("Name: " + checksName);
                     return [2 /*return*/];
             }
         });
