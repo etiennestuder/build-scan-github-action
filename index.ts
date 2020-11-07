@@ -32,30 +32,6 @@ async function main(): Promise<void> {
 
     core.info(`Id: ${data.id}`)
     core.info(`Name: ${data.name}`)
-
-    // var gh = new GitHub({
-    //     username: 'FOO',
-    //     password: 'NotFoo'
-    //     /* also acceptable:
-    //        token: 'MY_OAUTH_TOKEN'
-    //      */
-    // });
-    //
-    // this.client = (new github.GitHub({
-    //   auth: token,
-    // }) as unknown) as Octokit
-    // this.context = github.context
-    // this.owner = this.context.repo.owner
-    // this.repo = this.context.repo.repo
-    // this.sha = this.context.payload.pull_request?.head.sha ?? this.context.sha
-    //
-    // const response = await this.client.checks.create({
-    //     owner,
-    //     repo,
-    //     name,
-    //     head_sha: sha,
-    //     status: 'in_progress',
-    // })
 }
 
 main().catch(error => {
