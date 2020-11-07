@@ -5833,7 +5833,7 @@ var fs = __webpack_require__(747);
 var path = __webpack_require__(622);
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, octokit, r;
+        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, octokit, r, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -5860,7 +5860,10 @@ function main() {
                         })];
                 case 1:
                     r = _a.sent();
-                    core.info("Response: " + r);
+                    data = r.data;
+                    core.info("Response: " + data);
+                    core.info("Id: " + data.id);
+                    core.info("Name: " + data.name);
                     return [2 /*return*/];
             }
         });
