@@ -24,23 +24,27 @@ async function main(): Promise<void> {
         repo: github.context.repo.repo,
         name: 'Build scans',
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
-        details_url: 'https://www.gradle.com',
         status: 'completed',
         conclusion: 'success',
+        actions: [{
+            label: 'some label',
+            description: 'some description',
+            identifier: 'some identifier',
+        }],
         output: {
             title: `Build scans`,
             summary: `While executing this workflow, one or more build scans were published.`,
             text: `Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`,
-            annotations: [
-                {
-                    "title": "Some title [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
-                    "message": "This is a annotation message [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
-                    "annotation_level": "notice",
-                    "path": ".github",
-                    "start_line": 1,
-                    "end_line": 1
-                }
-            ]
+            // annotations: [
+            //     {
+            //         "title": "Some title [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
+            //         "message": "This is a annotation message [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
+            //         "annotation_level": "notice",
+            //         "path": ".github",
+            //         "start_line": 1,
+            //         "end_line": 1
+            //     }
+            // ]
         }
     });
 
