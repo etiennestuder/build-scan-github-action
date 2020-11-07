@@ -33,8 +33,8 @@ async function main(): Promise<void> {
             text: `Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`,
             annotations: [
                 {
-                    "title": "Some title",
-                    "message": "This is a annotation message",
+                    "title": "Some title [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
+                    "message": "This is a annotation message [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
                     "annotation_level": "notice",
                     "path": ".github",
                     "start_line": 1,
