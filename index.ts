@@ -27,25 +27,12 @@ async function main(): Promise<void> {
         details_url: 'https://www.gradle.com',
         status: 'completed',
         conclusion: 'action_required',
-        actions: [{
-            label: 'some label',
-            description: 'some description',
-            identifier: 'some identifier',
-        }],
         output: {
             title: `Build scans`,
-            summary: `While executing this workflow, one or more build scans were published.`,
+            summary: `While executing this workflow, one or more build scans were published.
+
+            Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser.`,
             text: `Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`,
-            // annotations: [
-            //     {
-            //         "title": "Some title [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
-            //         "message": "This is a annotation message [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
-            //         "annotation_level": "notice",
-            //         "path": ".github",
-            //         "start_line": 1,
-            //         "end_line": 1
-            //     }
-            // ]
         }
     });
 
