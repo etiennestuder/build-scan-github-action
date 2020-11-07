@@ -5833,7 +5833,7 @@ var fs = __webpack_require__(747);
 var path = __webpack_require__(622);
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, octokit, createResponse, data, checksId, checksName;
+        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, octokit, createResponse, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -5860,18 +5860,25 @@ function main() {
                             status: 'completed',
                             conclusion: 'success',
                             output: {
-                                title: "Some title",
-                                summary: "Build scan captured",
-                                text: "Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)"
+                                title: "Build scans",
+                                summary: "While executing this workflow, one or more build scans were published.",
+                                text: "Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
+                                annotations: [
+                                    {
+                                        "title": "Some title",
+                                        "message": "This is a annotation message",
+                                        "annotation_level": "Notice",
+                                        "path": ".github",
+                                        "start_line": 1,
+                                        "end_line": 1
+                                    }
+                                ]
                             }
                         })];
                 case 1:
                     createResponse = _a.sent();
                     data = createResponse.data;
-                    checksId = data.id;
-                    checksName = data.name;
-                    core.info("Id: " + checksId);
-                    core.info("Name: " + checksName);
+                    core.info("Status: " + data.status);
                     return [2 /*return*/];
             }
         });

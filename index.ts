@@ -30,16 +30,22 @@ async function main(): Promise<void> {
         output: {
             title: `Build scans`,
             summary: `While executing this workflow, one or more build scans were published.`,
-            text: `Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`
+            text: `Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`,
+            annotations: [
+                {
+                    "title": "Some title",
+                    "message": "This is a annotation message",
+                    "annotation_level": "Notice",
+                    "path": ".github",
+                    "start_line": 1,
+                    "end_line": 1
+                }
+            ]
         }
     });
 
     const data = createResponse.data;
-    const checksId = data.id;
-    const checksName = data.name;
-
-    core.info(`Id: ${checksId}`)
-    core.info(`Name: ${checksName}`)
+    core.info(`Status: ${data.status}`);
 }
 
 main().catch(error => {
