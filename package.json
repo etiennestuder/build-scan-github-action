@@ -3,9 +3,8 @@
     "version": "0.0.1",
     "private": true,
     "description": "Github action to prominently expose the build scan URL.",
-    "main": "index.js",
     "scripts": {
-        "build": "ncc build index.js --license licenses.txt",
+        "build": "ncc build index.ts --license licenses.txt",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {

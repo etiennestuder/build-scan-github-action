@@ -2,78 +2,6 @@ module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 932:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-const core = __webpack_require__(186);
-const github = __webpack_require__(438);
-const fs = __webpack_require__(747);
-const path = __webpack_require__(622);
-
-try {
-    const baseDirectory = process.env[`GITHUB_WORKSPACE`] || ''
-    core.info(`Base directory ${baseDirectory}`)
-
-    const buildScansPath = path.resolve(baseDirectory, core.getInput('build-scans-path'));
-
-    if (fs.existsSync(buildScansPath)) {
-        core.info(`Reading file ${buildScansPath}`)
-        const content = fs.readFileSync(buildScansPath, 'utf-8');
-        core.info(`File content: ${content}`)
-    } else {
-        core.info(`File ${buildScansPath} does not exist`)
-    }
-
-    const octokit = github.getOctokit(core.getInput('token'), {userAgent : "ddd", log: {
-            debug: console.debug,
-            info: console.info,
-            warn: console.warn,
-            error: console.error
-        },})
-
-    console.info(`Owner: ${github.context.repo.owner}`)
-    console.info(`Repo: ${github.context.repo}`)
-    console.info(`SHA: ${github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha}`)
-
-    const r = octokit.checks.create({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        name: 'Build scans',
-        head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
-        status: 'in_progress'
-    });
-    r.catch(e => core.error(`Error: ${e}`)).then(x => core.info(`Response: ${x}`))
-
-    // var gh = new GitHub({
-    //     username: 'FOO',
-    //     password: 'NotFoo'
-    //     /* also acceptable:
-    //        token: 'MY_OAUTH_TOKEN'
-    //      */
-    // });
-    //
-    // this.client = (new github.GitHub({
-    //   auth: token,
-    // }) as unknown) as Octokit
-    // this.context = github.context
-    // this.owner = this.context.repo.owner
-    // this.repo = this.context.repo.repo
-    // this.sha = this.context.payload.pull_request?.head.sha ?? this.context.sha
-    //
-    // const response = await this.client.checks.create({
-    //     owner,
-    //     repo,
-    //     name,
-    //     head_sha: sha,
-    //     status: 'in_progress',
-    // })
-} catch (error) {
-    core.setFailed(error.message);
-}
-
-
-/***/ }),
-
 /***/ 351:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -3349,7 +3277,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var deprecation = __webpack_require__(481);
+var deprecation = __webpack_require__(932);
 var once = _interopDefault(__webpack_require__(223));
 
 const logOnce = once(deprecation => console.warn(deprecation));
@@ -3734,7 +3662,7 @@ function removeHook (state, name, method) {
 
 /***/ }),
 
-/***/ 481:
+/***/ 932:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -5860,6 +5788,73 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 177:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var core = __webpack_require__(186);
+var github = __webpack_require__(438);
+var fs = __webpack_require__(747);
+var path = __webpack_require__(622);
+try {
+    var baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
+    core.info("Base directory " + baseDirectory);
+    var buildScansPath = path.resolve(baseDirectory, core.getInput('build-scans-path'));
+    if (fs.existsSync(buildScansPath)) {
+        core.info("Reading file " + buildScansPath);
+        var content = fs.readFileSync(buildScansPath, 'utf-8');
+        core.info("File content: " + content);
+    }
+    else {
+        core.info("File " + buildScansPath + " does not exist");
+    }
+    var octokit = github.getOctokit(core.getInput('token'), { userAgent: "ddd", log: {
+            debug: console.debug,
+            info: console.info,
+            warn: console.warn,
+            error: console.error
+        }, });
+    console.info("Owner: " + github.context.repo.owner);
+    console.info("Repo: " + github.context.repo);
+    console.info("SHA: " + (github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha));
+    var r = octokit.checks.create({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        name: 'Build scans',
+        head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
+        status: 'in_progress'
+    });
+    r["catch"](function (e) { return core.error("Error: " + e); }).then(function (x) { return core.info("Response: " + x); });
+    // var gh = new GitHub({
+    //     username: 'FOO',
+    //     password: 'NotFoo'
+    //     /* also acceptable:
+    //        token: 'MY_OAUTH_TOKEN'
+    //      */
+    // });
+    //
+    // this.client = (new github.GitHub({
+    //   auth: token,
+    // }) as unknown) as Octokit
+    // this.context = github.context
+    // this.owner = this.context.repo.owner
+    // this.repo = this.context.repo.repo
+    // this.sha = this.context.payload.pull_request?.head.sha ?? this.context.sha
+    //
+    // const response = await this.client.checks.create({
+    //     owner,
+    //     repo,
+    //     name,
+    //     head_sha: sha,
+    //     status: 'in_progress',
+    // })
+}
+catch (error) {
+    core.setFailed(error.message);
+}
+
+
+/***/ }),
+
 /***/ 877:
 /***/ ((module) => {
 
@@ -6010,6 +6005,6 @@ module.exports = require("zlib");
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(932);
+/******/ 	return __webpack_require__(177);
 /******/ })()
 ;
