@@ -26,7 +26,7 @@ async function main(): Promise<void> {
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
         details_url: 'https://www.gradle.com',
         status: 'completed',
-        conclusion: 'action_required',
+        conclusion: 'neutral',
         output: {
             title: `Build scans`,
             summary: `While executing this workflow, one or more build scans were published.
