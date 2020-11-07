@@ -5862,7 +5862,7 @@ function main() {
                             output: {
                                 title: "Build scans",
                                 summary: "While executing this workflow, one or more build scans were published.\n\n            Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser.",
-                                text: "Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
+                                text: "[https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
                             }
                         })];
                 case 1:
