@@ -26,7 +26,12 @@ async function main(): Promise<void> {
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
         status: 'in_progress'
     });
-    core.info(`Response: ${r}`)
+
+    const data = r.data;
+    core.info(`Response: ${data}`)
+
+    core.info(`Id: ${data.id}`)
+    core.info(`Name: ${data.name}`)
 
     // var gh = new GitHub({
     //     username: 'FOO',
