@@ -35,7 +35,7 @@ async function main(): Promise<void> {
                 {
                     "title": "Some title",
                     "message": "This is a annotation message",
-                    "annotation_level": "Notice",
+                    "annotation_level": "notice",
                     "path": ".github",
                     "start_line": 1,
                     "end_line": 1
