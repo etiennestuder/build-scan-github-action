@@ -28,8 +28,8 @@ async function main(): Promise<void> {
         status: 'completed',
         conclusion: 'success',
         output: {
-            title: `Some title`,
-            summary: `Build scan captured`,
+            title: `Build scans`,
+            summary: `While executing this workflow, one or more build scans were published.`,
             text: `Build scan link: [https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`
         }
     });
