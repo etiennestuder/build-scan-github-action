@@ -5861,7 +5861,7 @@ function main() {
                             conclusion: 'neutral',
                             output: {
                                 title: "Build scans",
-                                summary: "While executing this workflow, one or more build scans were published.\n\n            Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser.",
+                                summary: "While executing this workflow, one or more build scans were published.\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).",
                                 text: "[https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
                             }
                         })];

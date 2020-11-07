@@ -31,7 +31,7 @@ async function main(): Promise<void> {
             title: `Build scans`,
             summary: `While executing this workflow, one or more build scans were published.
 
-            Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser.`,
+Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).`,
             text: `[https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)`,
         }
     });
