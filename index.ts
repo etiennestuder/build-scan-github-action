@@ -3,39 +3,30 @@ const github = require('@actions/github');
 const fs = require('fs');
 const path = require('path');
 
-try {
-    const baseDirectory = process.env[`GITHUB_WORKSPACE`] || ''
-    core.info(`Base directory ${baseDirectory}`)
+async function main(): Promise<void> {
+    const baseDirectory = process.env[`GITHUB_WORKSPACE`] || '';
+    const buildScansPath = core.getInput('build-scans-path');
+    const token = core.getInput('token');
 
-    const buildScansPath = path.resolve(baseDirectory, core.getInput('build-scans-path'));
-
-    if (fs.existsSync(buildScansPath)) {
-        core.info(`Reading file ${buildScansPath}`)
-        const content = fs.readFileSync(buildScansPath, 'utf-8');
+    const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
+    if (fs.existsSync(resolvedBuildScansPath)) {
+        core.info(`Reading file ${resolvedBuildScansPath}`)
+        const content = fs.readFileSync(resolvedBuildScansPath, 'utf-8');
         core.info(`File content: ${content}`)
     } else {
-        core.info(`File ${buildScansPath} does not exist`)
+        core.warning(`File ${resolvedBuildScansPath} does not exist`);
+        return;
     }
 
-    const octokit = github.getOctokit(core.getInput('token'), {userAgent : "ddd", log: {
-            debug: console.debug,
-            info: console.info,
-            warn: console.warn,
-            error: console.error
-        },})
-
-    console.info(`Owner: ${github.context.repo.owner}`)
-    console.info(`Repo: ${github.context.repo}`)
-    console.info(`SHA: ${github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha}`)
-
-    const r = octokit.checks.create({
+    const octokit = github.getOctokit(token)
+    const r = await octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         name: 'Build scans',
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
         status: 'in_progress'
     });
-    r.catch(e => core.error(`Error: ${e}`)).then(x => core.info(`Response: ${x}`))
+    core.info(`Response: ${r}`)
 
     // var gh = new GitHub({
     //     username: 'FOO',
@@ -60,6 +51,9 @@ try {
     //     head_sha: sha,
     //     status: 'in_progress',
     // })
-} catch (error) {
-    core.setFailed(error.message);
 }
+
+main().catch(error => {
+    console.error(error.stack)
+    core.setFailed(`Build scan annotations action: ${error.message}`)
+})
