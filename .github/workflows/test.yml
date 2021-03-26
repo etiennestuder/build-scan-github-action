@@ -9,6 +9,9 @@ jobs:
             -   id: checkout
                 name: Check out project
                 uses: actions/checkout@v2
+            -   id: list-env-vars
+                name: List env vars
+                run: env
             -   id: multiple-build-scans
                 name: Collect build scans
                 uses: ./
