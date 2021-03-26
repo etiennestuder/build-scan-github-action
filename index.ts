@@ -22,7 +22,7 @@ async function main(): Promise<void> {
     const createResponse = await octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        name: 'Build scans',
+        name: 'Build scan',
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
         details_url: 'https://www.gradle.com',
         status: 'completed',
