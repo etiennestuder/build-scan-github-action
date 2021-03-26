@@ -23,7 +23,7 @@ async function main(): Promise<void> {
     core.info(`Run number: ${github.context.runNumber}`);
 
     const octo = github.getOctokit(token) as Octokit
-    const foo = await octo.rest.actions.listJobsForWorkflowRun({
+    const foo = await octo.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         run_id: process.env[`GITHUB_RUN_ID`]

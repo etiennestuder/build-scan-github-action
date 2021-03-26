@@ -5862,7 +5862,7 @@ function main() {
                     core.info("Run id: " + github.context.runId);
                     core.info("Run number: " + github.context.runNumber);
                     octo = github.getOctokit(token);
-                    return [4 /*yield*/, octo.rest.actions.listJobsForWorkflowRun({
+                    return [4 /*yield*/, octo.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
                             run_id: process.env["GITHUB_RUN_ID"]
