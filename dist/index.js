@@ -5850,9 +5850,13 @@ function main() {
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
                     core.info("Run id: " + process.env["GITHUB_RUN_ID"]);
-                    core.info("Job id: " + process.env["GITHUB_JOB_ID"]);
                     core.info("Job: " + process.env["GITHUB_JOB"]);
                     core.info("Action: " + process.env["GITHUB_ACTION"]);
+                    core.info("Workflow: " + github.context.workflow);
+                    core.info("Action: " + github.context.action);
+                    core.info("Job: " + github.context.job);
+                    core.info("Run id: " + github.context.runId);
+                    core.info("Run number: " + github.context.runNumber);
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
