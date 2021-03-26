@@ -28,7 +28,7 @@ async function main(): Promise<void> {
         status: 'completed',
         conclusion: 'neutral',
         output: {
-            title: `Build scans`,
+            title: `Build scan`,
             summary: `While executing this workflow, one or more build scans were published.
 
 Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).`,
