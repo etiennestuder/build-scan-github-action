@@ -1,6 +1,6 @@
 # build-scan-github-action
 
-This Github action prominently exposes the build scan URL in the Annotations section.
+This GitHub action prominently exposes the build scan URL in the Annotations section.
 ## Inputs
 
 ### `who-to-greet`

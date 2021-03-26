@@ -1,7 +1,7 @@
 {
     "name": "build-scan-github-action",
     "version": "0.0.1",
-    "description": "Github action to prominently expose the build scan URL.",
+    "description": "GitHub action to prominently expose the build scan URL.",
     "license": "Apache-2.0",
     "homepage": "https://github.com/etiennestuder/build-scan-github-action",
     "repository": {

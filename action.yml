@@ -6,7 +6,7 @@ inputs:
         required: true
         default: './build-scans'
     token:
-        description: 'Github authentication token with permission to create a check run.'
+        description: 'GitHub authentication token with permission to create a check run.'
         required: true
         default: null
 runs:

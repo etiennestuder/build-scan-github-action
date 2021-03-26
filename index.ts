@@ -42,5 +42,5 @@ Build scans are a persistent record of what happened in your Gradle or Maven bui
 
 main().catch(error => {
     console.error(error.stack)
-    core.setFailed(`Build scan annotations action: ${error.message}`)
+    core.setFailed(`Build scan GitHub action: ${error.message}`)
 })
