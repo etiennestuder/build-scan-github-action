@@ -20,14 +20,14 @@ async function main(): Promise<void> {
     core.info(`Run id: ${github.context.runId}`);
     core.info(`Run number: ${github.context.runNumber}`);
 
-    const octokit2 = github.getOctokit(token)
-    const foo = await octokit2.actions.getJobForWorkflowRun({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        job_id: process.env[`GITHUB_JOB`]
-    });
+    // const octokit2 = github.getOctokit(token)
+    // const foo = await octokit2.actions.getJobForWorkflowRun({
+    //     owner: github.context.repo.owner,
+    //     repo: github.context.repo.repo,
+    //     job_id: jobId
+    // });
 
-    core.info(`Job name: ${foo.name}`);
+    // core.info(`Job name: ${foo.name}`);
 
     // resolve path to file containing build scans
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
