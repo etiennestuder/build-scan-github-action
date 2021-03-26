@@ -5892,6 +5892,7 @@ function main() {
                 case 11: return [7 /*endfinally*/];
                 case 12:
                     buildScanLinks = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; });
+                    core.info("Links: " + buildScanLinks);
                     octokit = github.getOctokit(token);
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,

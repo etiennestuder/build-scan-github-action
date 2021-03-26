@@ -29,6 +29,7 @@ async function main(): Promise<void> {
 
     // construct markdown with build scan links rendered as links
     const buildScanLinks = rawBuildScanLinks.map( l => `[${l}](${l})`)
+    core.info(`Links: ${buildScanLinks}`);
 
     const octokit = github.getOctokit(token)
     const createResponse = await octokit.checks.create({
