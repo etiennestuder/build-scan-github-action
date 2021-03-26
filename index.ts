@@ -9,6 +9,8 @@ async function main(): Promise<void> {
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
 
+    core.info(`Workflow: ${process.env[`GITHUB_WORKFLOW`]}`);
+
     // resolve path to file containing build scans
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
     if (!fs.existsSync(resolvedBuildScansPath)) {
