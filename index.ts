@@ -39,9 +39,9 @@ async function main(): Promise<void> {
     });
 
     const getJobDetailsResponses: any[] = await Promise.all(getJobDetailsPromises)
-    core.info(`Result: ${getJobDetailsResponses[0].data.name}`);
-
-    // core.info(`Job name: ${JSON.stringify(r.data.name)}`);
+    getJobDetailsResponses.forEach(d => {
+        core.info(`Result: ${d.data.name}`);
+    });
 
     // resolve path to file containing build scans
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
