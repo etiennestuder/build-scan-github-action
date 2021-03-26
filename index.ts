@@ -28,7 +28,8 @@ async function main(): Promise<void> {
         repo: github.context.repo.repo,
         run_id: process.env[`GITHUB_RUN_ID`]
     });
-    core.info(`Job name: ${foo.name}`);
+    core.info(`Payload: ${foo}`);
+    core.info(`Payload: ${JSON.stringify(foo)}`);
 
     // const octokit2 = github.getOctokit(token)
     // const foo = await octokit2.actions.getJobForWorkflowRun({

@@ -5869,7 +5869,8 @@ function main() {
                         })];
                 case 1:
                     foo = _b.sent();
-                    core.info("Job name: " + foo.name);
+                    core.info("Payload: " + foo);
+                    core.info("Payload: " + JSON.stringify(foo));
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
