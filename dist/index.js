@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, octo, response, jobs, jobDetails, result, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5851,27 +5851,27 @@ function main() {
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
-                    octo = github.getOctokit(token, { log: console });
-                    return [4 /*yield*/, octo.actions.listJobsForWorkflowRun({
+                    octokit = github.getOctokit(token, { log: console });
+                    return [4 /*yield*/, octokit.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
                             run_id: runId
                         })];
                 case 1:
-                    response = _b.sent();
-                    core.info("Payload: " + JSON.stringify(response.data.jobs));
-                    jobs = response.data.jobs;
-                    jobDetails = jobs.map(function (job) {
-                        octo.actions.getJobForWorkflowRun({
+                    listJobsResponse = _b.sent();
+                    jobs = listJobsResponse.data.jobs;
+                    core.info("Jobs: " + JSON.stringify(jobs));
+                    getJobDetailsPromises = jobs.map(function (job) {
+                        return octokit.actions.getJobForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
                             job_id: job.id
                         });
                     });
-                    return [4 /*yield*/, Promise.all(jobDetails)];
+                    return [4 /*yield*/, Promise.all(getJobDetailsPromises)];
                 case 2:
-                    result = _b.sent();
-                    core.info("Result: " + result[0]);
+                    getJobDetailsResponses = _b.sent();
+                    core.info("Result: " + getJobDetailsResponses[0].data.name);
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
@@ -5922,7 +5922,6 @@ function main() {
                         numOfBuildScans === 1 ? "a build scan was published" :
                             numOfBuildScans + " build scans were published";
                     buildScanLinksMarkdown = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
-                    octokit = github.getOctokit(token);
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,

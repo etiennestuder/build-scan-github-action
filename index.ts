@@ -20,25 +20,26 @@ async function main(): Promise<void> {
     // core.info(`Run id: ${github.context.runId}`);
     // core.info(`Run number: ${github.context.runNumber}`);
 
-    const octo = github.getOctokit(token, {log: console});
-    const response = await octo.actions.listJobsForWorkflowRun({
+    const octokit = github.getOctokit(token, {log: console});
+    const listJobsResponse: any = await octokit.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         run_id: runId
     });
-    core.info(`Payload: ${JSON.stringify(response.data.jobs)}`);
 
-    const jobs: any[] = response.data.jobs;
-    const jobDetails = jobs.map(job => {
-        octo.actions.getJobForWorkflowRun({
+    const jobs: any[] = listJobsResponse.data.jobs;
+    core.info(`Jobs: ${JSON.stringify(jobs)}`);
+
+    const getJobDetailsPromises: Promise<any>[] = jobs.map(job => {
+        return octokit.actions.getJobForWorkflowRun({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             job_id: job.id
         });
     });
 
-    const result = await Promise.all(jobDetails)
-    core.info(`Result: ${result[0]}`);
+    const getJobDetailsResponses: any[] = await Promise.all(getJobDetailsPromises)
+    core.info(`Result: ${getJobDetailsResponses[0].data.name}`);
 
     // core.info(`Job name: ${JSON.stringify(r.data.name)}`);
 
@@ -71,7 +72,6 @@ async function main(): Promise<void> {
     const buildScanLinksMarkdown = rawBuildScanLinks.map(l => `[${l}](${l})`).join('\n');
 
     // create build scan pane via Github check request
-    const octokit = github.getOctokit(token)
     const createResponse = await octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
