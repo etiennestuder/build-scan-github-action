@@ -50,7 +50,9 @@ async function main(): Promise<void> {
             title: `Build scan`,
             summary: `While executing this job, ${summary}.
 
-Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).`,
+Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about
+build scans on the [website](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more
+about the free service at [scans.gradle.com](https://scans.gradle.com).`,
             text: buildScanLinksMarkdown,
         }
     });
