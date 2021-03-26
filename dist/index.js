@@ -5872,6 +5872,7 @@ function main() {
                 case 2:
                     getJobDetailsResponses = _b.sent();
                     getJobDetailsResponses.forEach(function (d) {
+                        core.info("R: " + JSON.stringify(d.data));
                         core.info("Result: " + d.data.name);
                     });
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);

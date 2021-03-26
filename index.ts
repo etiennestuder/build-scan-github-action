@@ -40,6 +40,7 @@ async function main(): Promise<void> {
 
     const getJobDetailsResponses: any[] = await Promise.all(getJobDetailsPromises)
     getJobDetailsResponses.forEach(d => {
+        core.info(`R: ${JSON.stringify(d.data)}`);
         core.info(`Result: ${d.data.name}`);
     });
 
