@@ -12,7 +12,7 @@ jobs:
             -   id: list-env-vars
                 name: List env vars
                 run: env
-            -   id: multiple-build-scans
+            -   id: no-build-scan
                 name: Collect build scans
                 uses: ./
                 with:
@@ -25,7 +25,7 @@ jobs:
             -   id: checkout
                 name: Check out project
                 uses: actions/checkout@v2
-            -   id: multiple-build-scans
+            -   id: single-build-scan
                 name: Collect build scans
                 uses: ./
                 with:
