@@ -13,7 +13,7 @@
         "@vercel/ncc": "^0.27.0"
     },
     "devDependencies": {
-        "typescript": "^4.0.5"
+        "typescript": "^4.2.3"
     },
     "author": "Etienne Studer",
     "license": "Apache-2.0",
