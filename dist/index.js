@@ -5910,7 +5910,7 @@ function main() {
                             conclusion: 'neutral',
                             output: {
                                 title: "Build scan",
-                                summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about\nbuild scans on the [Gradle website](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more\nabout the free service at [scans.gradle.com](https://scans.gradle.com).",
+                                summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).",
                                 text: buildScanLinksMarkdown,
                             }
                         })];
