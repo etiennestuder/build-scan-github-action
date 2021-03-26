@@ -1,8 +1,18 @@
 {
     "name": "build-scan-github-action",
     "version": "0.0.1",
-    "private": true,
     "description": "Github action to prominently expose the build scan URL.",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/etiennestuder/build-scan-github-action",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/etiennestuder/build-scan-github-action.git"
+    },
+    "bugs": {
+        "url": "https://github.com/etiennestuder/build-scan-github-action/issues"
+    },
+    "author": "Etienne Studer <etienne@studer.nu>",
+    "private": true,
     "scripts": {
         "build": "ncc build index.ts --license licenses.txt",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,15 +24,5 @@
     },
     "devDependencies": {
         "typescript": "^4.2.3"
-    },
-    "author": "Etienne Studer",
-    "license": "Apache-2.0",
-    "homepage": "https://github.com/etiennestuder/build-scan-github-action",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/etiennestuder/build-scan-github-action.git"
-    },
-    "bugs": {
-        "url": "https://github.com/etiennestuder/build-scan-github-action/issues"
     }
 }
