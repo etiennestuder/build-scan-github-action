@@ -18,18 +18,24 @@ async function main(): Promise<void> {
 
     // read build scan links line-by-line from file
     core.info(`Reading file ${resolvedBuildScansPath}`)
-    const rawBuildScanLinks = [];
     const rl = readline.createInterface({
         input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
         crlfDelay: Infinity
     });
+    const rawBuildScanLinks = [];
     for await (const line of rl) {
-        rawBuildScanLinks.push(line);
+        const trimmedLine = line.trim();
+        if (trimmedLine.length > 0) {
+            rawBuildScanLinks.push(trimmedLine);
+        }
     }
 
-    // construct markdown with build scan links rendered as links
-    const buildScanLinks = rawBuildScanLinks.map(l => `[${l}](${l})`).join(',');
-    core.info(`Links: ${buildScanLinks}`);
+    // prepare dynamic content of build scan pane shown in GitHub actions
+    const numOfBuildScans = rawBuildScanLinks.length;
+    const summary = numOfBuildScans === 0 ? 'no build scans were published' :
+        numOfBuildScans === 1 ? `a build scan was published` :
+            `${numOfBuildScans} build scans were published`
+    const buildScanLinksMarkdown = rawBuildScanLinks.map(l => `[${l}](${l})`).join('\n');
 
     const octokit = github.getOctokit(token)
     const createResponse = await octokit.checks.create({
@@ -42,10 +48,10 @@ async function main(): Promise<void> {
         conclusion: 'neutral',
         output: {
             title: `Build scan`,
-            summary: `While executing this workflow, ${buildScanLinks.length} build scan${buildScanLinks.length === 1 ? '' : 's'} were published.
+            summary: `While executing this job, ${summary}.
 
 Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).`,
-            text: buildScanLinks,
+            text: buildScanLinksMarkdown,
         }
     });
 

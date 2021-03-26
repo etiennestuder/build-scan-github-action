@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, rawBuildScanLinks, rl, rl_1, rl_1_1, line, e_1_1, buildScanLinks, octokit, createResponse, data;
+        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5856,11 +5856,11 @@ function main() {
                     }
                     // read build scan links line-by-line from file
                     core.info("Reading file " + resolvedBuildScansPath);
-                    rawBuildScanLinks = [];
                     rl = readline.createInterface({
                         input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
                         crlfDelay: Infinity
                     });
+                    rawBuildScanLinks = [];
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 6, 7, 12]);
@@ -5870,7 +5870,10 @@ function main() {
                 case 3:
                     if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 5];
                     line = rl_1_1.value;
-                    rawBuildScanLinks.push(line);
+                    trimmedLine = line.trim();
+                    if (trimmedLine.length > 0) {
+                        rawBuildScanLinks.push(trimmedLine);
+                    }
                     _b.label = 4;
                 case 4: return [3 /*break*/, 2];
                 case 5: return [3 /*break*/, 12];
@@ -5891,8 +5894,11 @@ function main() {
                     return [7 /*endfinally*/];
                 case 11: return [7 /*endfinally*/];
                 case 12:
-                    buildScanLinks = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join(',');
-                    core.info("Links: " + buildScanLinks);
+                    numOfBuildScans = rawBuildScanLinks.length;
+                    summary = numOfBuildScans === 0 ? 'no build scans were published' :
+                        numOfBuildScans === 1 ? "a build scan was published" :
+                            numOfBuildScans + " build scans were published";
+                    buildScanLinksMarkdown = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
                     octokit = github.getOctokit(token);
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
@@ -5904,8 +5910,8 @@ function main() {
                             conclusion: 'neutral',
                             output: {
                                 title: "Build scan",
-                                summary: "While executing this workflow, " + buildScanLinks.length + " build scan" + (buildScanLinks.length === 1 ? '' : 's') + " were published.\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).",
-                                text: buildScanLinks,
+                                summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).",
+                                text: buildScanLinksMarkdown,
                             }
                         })];
                 case 13:
