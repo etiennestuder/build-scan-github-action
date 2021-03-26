@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, octo, response, r, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octo, response, jobs, jobDetails, result, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5860,14 +5860,18 @@ function main() {
                 case 1:
                     response = _b.sent();
                     core.info("Payload: " + JSON.stringify(response.data.jobs));
-                    return [4 /*yield*/, octo.actions.getJobForWorkflowRun({
+                    jobs = response.data.jobs;
+                    jobDetails = jobs.map(function (job) {
+                        octo.actions.getJobForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
-                            job_id: response.data.jobs[0].id
-                        })];
+                            job_id: job.id
+                        });
+                    });
+                    return [4 /*yield*/, Promise.all(jobDetails)];
                 case 2:
-                    r = _b.sent();
-                    core.info("Job name: " + JSON.stringify(r.data.name));
+                    result = _b.sent();
+                    core.info("Result: " + result);
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
