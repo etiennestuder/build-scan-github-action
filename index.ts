@@ -5,18 +5,18 @@ const path = require('path');
 
 async function main(): Promise<void> {
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || '';
-    const buildScansPath = core.getInput('build-scans-path');
+    const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
 
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
-    if (fs.existsSync(resolvedBuildScansPath)) {
-        core.info(`Reading file ${resolvedBuildScansPath}`)
-        const content = fs.readFileSync(resolvedBuildScansPath, 'utf-8');
-        core.info(`File content: ${content}`)
-    } else {
+    if (!fs.existsSync(resolvedBuildScansPath)) {
         core.warning(`File ${resolvedBuildScansPath} does not exist`);
         return;
     }
+
+    core.info(`Reading file ${resolvedBuildScansPath}`)
+    const content = fs.readFileSync(resolvedBuildScansPath, 'utf-8');
+    core.info(`File content: ${content}`)
 
     const octokit = github.getOctokit(token)
     const createResponse = await octokit.checks.create({
