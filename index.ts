@@ -36,7 +36,7 @@ async function main(): Promise<void> {
             repo: github.context.repo.repo,
             job_id: jobId
         });
-        core.info(`Job name: ${JSON.stringify(response.data.name)}`);
+        core.info(`Job name: ${JSON.stringify(foo.data.name)}`);
     }
 
     // resolve path to file containing build scans

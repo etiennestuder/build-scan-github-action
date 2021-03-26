@@ -5885,7 +5885,7 @@ function main() {
                         })];
                 case 3:
                     foo = _d.sent();
-                    core.info("Job name: " + JSON.stringify(response.data.name));
+                    core.info("Job name: " + JSON.stringify(foo.data.name));
                     _d.label = 4;
                 case 4:
                     _i++;
