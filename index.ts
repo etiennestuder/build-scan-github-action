@@ -5,6 +5,7 @@ const path = require('path');
 const readline = require('readline');
 
 async function main(): Promise<void> {
+    const jobId = process.env[`GITHUB_JOB`];
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || '';
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
@@ -19,7 +20,14 @@ async function main(): Promise<void> {
     core.info(`Run id: ${github.context.runId}`);
     core.info(`Run number: ${github.context.runNumber}`);
 
+    const octokit2 = github.getOctokit(token)
+    const foo = await octokit2.getJobForWorkflowRun.create({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        job_id: process.env[`GITHUB_JOB`]
+    });
 
+    core.info(`Job name: ${foo.name}`);
 
     // resolve path to file containing build scans
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
