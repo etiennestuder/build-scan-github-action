@@ -23,13 +23,12 @@ async function main(): Promise<void> {
     core.info(`Run number: ${github.context.runNumber}`);
 
     const octo = github.getOctokit(token) as Octokit
-    const foo = await octo.actions.listJobsForWorkflowRun({
+    const response = await octo.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         run_id: process.env[`GITHUB_RUN_ID`]
     });
-    core.info(`Payload: ${foo}`);
-    core.info(`Payload: ${JSON.stringify(foo)}`);
+    core.info(`Payload: ${JSON.stringify(response.data.jobs)}`);
 
     // const octokit2 = github.getOctokit(token)
     // const foo = await octokit2.actions.getJobForWorkflowRun({

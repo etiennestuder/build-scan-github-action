@@ -5845,7 +5845,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var jobId, baseDirectory, buildScansPath, token, octo, foo, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
+        var jobId, baseDirectory, buildScansPath, token, octo, response, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5868,9 +5868,8 @@ function main() {
                             run_id: process.env["GITHUB_RUN_ID"]
                         })];
                 case 1:
-                    foo = _b.sent();
-                    core.info("Payload: " + foo);
-                    core.info("Payload: " + JSON.stringify(foo));
+                    response = _b.sent();
+                    core.info("Payload: " + JSON.stringify(response.data.jobs));
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
