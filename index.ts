@@ -21,7 +21,7 @@ async function main(): Promise<void> {
     core.info(`Run number: ${github.context.runNumber}`);
 
     const octokit2 = github.getOctokit(token)
-    const foo = await octokit2.getJobForWorkflowRun.create({
+    const foo = await octokit2.jobs.getJobForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         job_id: process.env[`GITHUB_JOB`]
