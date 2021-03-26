@@ -37,8 +37,8 @@ async function main(): Promise<void> {
         });
     });
 
-    const result = await Promise.all(jobDetails,)
-    core.info(`Result: ${result}`);
+    const result: any[] = await Promise.all(jobDetails)
+    core.info(`Result: ${result[0].id}`);
 
     // core.info(`Job name: ${JSON.stringify(r.data.name)}`);
 

@@ -5871,7 +5871,7 @@ function main() {
                     return [4 /*yield*/, Promise.all(jobDetails)];
                 case 2:
                     result = _b.sent();
-                    core.info("Result: " + result);
+                    core.info("Result: " + result[0].id);
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
