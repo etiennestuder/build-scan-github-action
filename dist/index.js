@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, buildScanLinks, rl, rl_1, rl_1_1, line, e_1_1, octokit, createResponse, data;
+        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, rawBuildScanLinks, rl, rl_1, rl_1_1, line, e_1_1, buildScanLinks, octokit, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5856,7 +5856,7 @@ function main() {
                     }
                     // read build scan links line-by-line from file
                     core.info("Reading file " + resolvedBuildScansPath);
-                    buildScanLinks = [];
+                    rawBuildScanLinks = [];
                     rl = readline.createInterface({
                         input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
                         crlfDelay: Infinity
@@ -5870,7 +5870,7 @@ function main() {
                 case 3:
                     if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 5];
                     line = rl_1_1.value;
-                    buildScanLinks.push(line);
+                    rawBuildScanLinks.push(line);
                     _b.label = 4;
                 case 4: return [3 /*break*/, 2];
                 case 5: return [3 /*break*/, 12];
@@ -5891,8 +5891,7 @@ function main() {
                     return [7 /*endfinally*/];
                 case 11: return [7 /*endfinally*/];
                 case 12:
-                    // construct markdown text with build scan links
-                    core.info("Length: " + buildScanLinks.length);
+                    buildScanLinks = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; });
                     octokit = github.getOctokit(token);
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
@@ -5905,7 +5904,7 @@ function main() {
                             output: {
                                 title: "Build scan",
                                 summary: "While executing this workflow, " + buildScanLinks.length + " build scan" + (buildScanLinks.length === 1 ? '' : 's') + " were published.\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more at [scans.gradle.com](https://scans.gradle.com).",
-                                text: "[https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
+                                text: buildScanLinks,
                             }
                         })];
                 case 13:
