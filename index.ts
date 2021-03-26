@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
+import {Octokit} from '@octokit/core';
+
 async function main(): Promise<void> {
     const jobId = process.env[`GITHUB_JOB`];
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || '';
@@ -19,6 +21,16 @@ async function main(): Promise<void> {
     core.info(`Job: ${github.context.job}`);
     core.info(`Run id: ${github.context.runId}`);
     core.info(`Run number: ${github.context.runNumber}`);
+
+    const octo = (new github.GitHub({
+        auth: token,
+    }) as unknown) as Octokit
+    const foo = await octo.rest.actions.listJobsForWorkflowRun({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        run_id: process.env[`GITHUB_RUN_ID`]
+    });
+    core.info(`Job name: ${foo.name}`);
 
     // const octokit2 = github.getOctokit(token)
     // const foo = await octokit2.actions.getJobForWorkflowRun({
