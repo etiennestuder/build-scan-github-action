@@ -5789,9 +5789,7 @@ function wrappy (fn, cb) {
 /***/ }),
 
 /***/ 177:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) {
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -5836,7 +5834,6 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
-exports.__esModule = true;
 var core = __nccwpck_require__(186);
 var github = __nccwpck_require__(438);
 var fs = __nccwpck_require__(747);
@@ -5845,37 +5842,28 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var jobId, baseDirectory, buildScansPath, token, octo, response, fff, r, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octo, response, r, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    jobId = process.env["GITHUB_JOB"];
+                    runId = process.env["GITHUB_RUN_ID"];
+                    jobName = process.env["GITHUB_JOB"];
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
-                    core.info("Run id: " + process.env["GITHUB_RUN_ID"]);
-                    core.info("Job: " + process.env["GITHUB_JOB"]);
-                    core.info("Action: " + process.env["GITHUB_ACTION"]);
-                    core.info("Workflow: " + github.context.workflow);
-                    core.info("Action: " + github.context.action);
-                    core.info("Job: " + github.context.job);
-                    core.info("Run id: " + github.context.runId);
-                    core.info("Run number: " + github.context.runNumber);
                     octo = github.getOctokit(token);
                     return [4 /*yield*/, octo.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
-                            run_id: process.env["GITHUB_RUN_ID"]
+                            run_id: runId
                         })];
                 case 1:
                     response = _b.sent();
                     core.info("Payload: " + JSON.stringify(response.data.jobs));
-                    fff = response.data.jobs;
-                    core.info(fff);
                     return [4 /*yield*/, octo.actions.getJobForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
-                            job_id: fff[0].id
+                            job_id: response.data.jobs[0].id
                         })];
                 case 2:
                     r = _b.sent();

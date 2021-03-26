@@ -4,39 +4,34 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
-import {Octokit} from '@octokit/core';
-
 async function main(): Promise<void> {
-    const jobId = process.env[`GITHUB_JOB`];
+    const runId = process.env[`GITHUB_RUN_ID`];
+    const jobName = process.env[`GITHUB_JOB`];
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || '';
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
 
-    core.info(`Run id: ${process.env[`GITHUB_RUN_ID`]}`);
-    core.info(`Job: ${process.env[`GITHUB_JOB`]}`);
-    core.info(`Action: ${process.env[`GITHUB_ACTION`]}`);
+    // core.info(`Run id: ${process.env[`GITHUB_RUN_ID`]}`);
+    // core.info(`Job: ${process.env[`GITHUB_JOB`]}`);
+    // core.info(`Action: ${process.env[`GITHUB_ACTION`]}`);
+    // core.info(`Workflow: ${github.context.workflow}`);
+    // core.info(`Action: ${github.context.action}`);
+    // core.info(`Job: ${github.context.job}`);
+    // core.info(`Run id: ${github.context.runId}`);
+    // core.info(`Run number: ${github.context.runNumber}`);
 
-    core.info(`Workflow: ${github.context.workflow}`);
-    core.info(`Action: ${github.context.action}`);
-    core.info(`Job: ${github.context.job}`);
-    core.info(`Run id: ${github.context.runId}`);
-    core.info(`Run number: ${github.context.runNumber}`);
-
-    const octo = github.getOctokit(token) as Octokit
+    const octo = github.getOctokit(token)
     const response = await octo.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        run_id: process.env[`GITHUB_RUN_ID`]
+        run_id: runId
     });
     core.info(`Payload: ${JSON.stringify(response.data.jobs)}`);
-
-    const fff:any[] = response.data.jobs;
-    core.info(fff);
 
     const r = await octo.actions.getJobForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        job_id: fff[0].id
+        job_id: response.data.jobs[0].id
     });
     core.info(`Job name: ${JSON.stringify(r.data.name)}`);
 
