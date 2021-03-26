@@ -1,5 +1,5 @@
-name: 'Build scan annotations'
-description: 'Surfaces the build scan links of Gradle builds as workflow annotations.'
+name: 'Build scan integration'
+description: 'Surfaces the build scan links when running a Gradle or Maven build.'
 inputs:
     build-scans-path:
         description: 'Path to the file containing the build scan URLs and optionally the build outcomes.'
