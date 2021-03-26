@@ -2,9 +2,35 @@ name: "Integration Tests"
 on: [ push, workflow_dispatch ]
 
 jobs:
-    test_job:
+    no_build_scan_job:
         runs-on: ubuntu-latest
         name: Test (no build scan)
+        steps:
+            -   id: checkout
+                name: Check out project
+                uses: actions/checkout@v2
+            -   id: multiple-build-scans
+                name: Collect build scans
+                uses: ./
+                with:
+                    build-scans-path: './__tests__/data/no-build-scans'
+                    token: ${{ secrets.GITHUB_TOKEN }}
+    single_build_scan_job:
+        runs-on: ubuntu-latest
+        name: Test (single build scan)
+        steps:
+            -   id: checkout
+                name: Check out project
+                uses: actions/checkout@v2
+            -   id: multiple-build-scans
+                name: Collect build scans
+                uses: ./
+                with:
+                    build-scans-path: './__tests__/data/single-build-scan'
+                    token: ${{ secrets.GITHUB_TOKEN }}
+    multiple_build_scans_job:
+        runs-on: ubuntu-latest
+        name: Test (multiple build scans)
         steps:
             -   id: checkout
                 name: Check out project
