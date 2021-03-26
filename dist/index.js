@@ -5845,9 +5845,9 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var jobId, baseDirectory, buildScansPath, token, octo, response, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var jobId, baseDirectory, buildScansPath, token, octo, response, _b, _c, _i, job, foo, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, octokit, createResponse, data;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     jobId = process.env["GITHUB_JOB"];
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
@@ -5868,8 +5868,29 @@ function main() {
                             run_id: process.env["GITHUB_RUN_ID"]
                         })];
                 case 1:
-                    response = _b.sent();
+                    response = _d.sent();
                     core.info("Payload: " + JSON.stringify(response.data.jobs));
+                    _b = [];
+                    for (_c in response.data.jobs)
+                        _b.push(_c);
+                    _i = 0;
+                    _d.label = 2;
+                case 2:
+                    if (!(_i < _b.length)) return [3 /*break*/, 5];
+                    job = _b[_i];
+                    return [4 /*yield*/, octo.actions.getJobForWorkflowRun({
+                            owner: github.context.repo.owner,
+                            repo: github.context.repo.repo,
+                            job_id: jobId
+                        })];
+                case 3:
+                    foo = _d.sent();
+                    core.info("Job name: " + JSON.stringify(response.data.name));
+                    _d.label = 4;
+                case 4:
+                    _i++;
+                    return [3 /*break*/, 2];
+                case 5:
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
@@ -5882,39 +5903,39 @@ function main() {
                         crlfDelay: Infinity
                     });
                     rawBuildScanLinks = [];
-                    _b.label = 2;
-                case 2:
-                    _b.trys.push([2, 7, 8, 13]);
+                    _d.label = 6;
+                case 6:
+                    _d.trys.push([6, 11, 12, 17]);
                     rl_1 = __asyncValues(rl);
-                    _b.label = 3;
-                case 3: return [4 /*yield*/, rl_1.next()];
-                case 4:
-                    if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 6];
+                    _d.label = 7;
+                case 7: return [4 /*yield*/, rl_1.next()];
+                case 8:
+                    if (!(rl_1_1 = _d.sent(), !rl_1_1.done)) return [3 /*break*/, 10];
                     line = rl_1_1.value;
                     trimmedLine = line.trim();
                     if (trimmedLine.length > 0) {
                         rawBuildScanLinks.push(trimmedLine);
                     }
-                    _b.label = 5;
-                case 5: return [3 /*break*/, 3];
-                case 6: return [3 /*break*/, 13];
-                case 7:
-                    e_1_1 = _b.sent();
-                    e_1 = { error: e_1_1 };
-                    return [3 /*break*/, 13];
-                case 8:
-                    _b.trys.push([8, , 11, 12]);
-                    if (!(rl_1_1 && !rl_1_1.done && (_a = rl_1["return"]))) return [3 /*break*/, 10];
-                    return [4 /*yield*/, _a.call(rl_1)];
-                case 9:
-                    _b.sent();
-                    _b.label = 10;
-                case 10: return [3 /*break*/, 12];
+                    _d.label = 9;
+                case 9: return [3 /*break*/, 7];
+                case 10: return [3 /*break*/, 17];
                 case 11:
+                    e_1_1 = _d.sent();
+                    e_1 = { error: e_1_1 };
+                    return [3 /*break*/, 17];
+                case 12:
+                    _d.trys.push([12, , 15, 16]);
+                    if (!(rl_1_1 && !rl_1_1.done && (_a = rl_1["return"]))) return [3 /*break*/, 14];
+                    return [4 /*yield*/, _a.call(rl_1)];
+                case 13:
+                    _d.sent();
+                    _d.label = 14;
+                case 14: return [3 /*break*/, 16];
+                case 15:
                     if (e_1) throw e_1.error;
                     return [7 /*endfinally*/];
-                case 12: return [7 /*endfinally*/];
-                case 13:
+                case 16: return [7 /*endfinally*/];
+                case 17:
                     numOfBuildScans = rawBuildScanLinks.length;
                     summary = numOfBuildScans === 0 ? 'no build scans were published' :
                         numOfBuildScans === 1 ? "a build scan was published" :
@@ -5935,8 +5956,8 @@ function main() {
                                 text: buildScanLinksMarkdown,
                             }
                         })];
-                case 14:
-                    createResponse = _b.sent();
+                case 18:
+                    createResponse = _d.sent();
                     data = createResponse.data;
                     core.info("Status: " + data.status);
                     return [2 /*return*/];

@@ -30,14 +30,14 @@ async function main(): Promise<void> {
     });
     core.info(`Payload: ${JSON.stringify(response.data.jobs)}`);
 
-    // const octokit2 = github.getOctokit(token)
-    // const foo = await octokit2.actions.getJobForWorkflowRun({
-    //     owner: github.context.repo.owner,
-    //     repo: github.context.repo.repo,
-    //     job_id: jobId
-    // });
-
-    // core.info(`Job name: ${foo.name}`);
+    for(const job in response.data.jobs){
+        const foo = await octo.actions.getJobForWorkflowRun({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            job_id: jobId
+        });
+        core.info(`Job name: ${JSON.stringify(response.data.name)}`);
+    }
 
     // resolve path to file containing build scans
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
