@@ -5827,29 +5827,72 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
 var core = __nccwpck_require__(186);
 var github = __nccwpck_require__(438);
 var fs = __nccwpck_require__(747);
 var path = __nccwpck_require__(622);
+var readline = __nccwpck_require__(58);
 function main() {
+    var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, octokit, createResponse, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var baseDirectory, buildScansPath, token, resolvedBuildScansPath, content, results, rl, rl_1, rl_1_1, line, e_1_1, octokit, createResponse, data;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
-                    buildScansPath = core.getInput('build-scans-path');
+                    buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
-                    if (fs.existsSync(resolvedBuildScansPath)) {
-                        core.info("Reading file " + resolvedBuildScansPath);
-                        content = fs.readFileSync(resolvedBuildScansPath, 'utf-8');
-                        core.info("File content: " + content);
-                    }
-                    else {
+                    if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
                         return [2 /*return*/];
                     }
+                    core.info("Reading file " + resolvedBuildScansPath);
+                    content = fs.readFileSync(resolvedBuildScansPath, 'utf-8');
+                    core.info("File content: " + content);
+                    results = [];
+                    rl = readline.createInterface({
+                        input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
+                        crlfDelay: Infinity
+                    });
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 6, 7, 12]);
+                    rl_1 = __asyncValues(rl);
+                    _b.label = 2;
+                case 2: return [4 /*yield*/, rl_1.next()];
+                case 3:
+                    if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 5];
+                    line = rl_1_1.value;
+                    results.push(line);
+                    _b.label = 4;
+                case 4: return [3 /*break*/, 2];
+                case 5: return [3 /*break*/, 12];
+                case 6:
+                    e_1_1 = _b.sent();
+                    e_1 = { error: e_1_1 };
+                    return [3 /*break*/, 12];
+                case 7:
+                    _b.trys.push([7, , 10, 11]);
+                    if (!(rl_1_1 && !rl_1_1.done && (_a = rl_1["return"]))) return [3 /*break*/, 9];
+                    return [4 /*yield*/, _a.call(rl_1)];
+                case 8:
+                    _b.sent();
+                    _b.label = 9;
+                case 9: return [3 /*break*/, 11];
+                case 10:
+                    if (e_1) throw e_1.error;
+                    return [7 /*endfinally*/];
+                case 11: return [7 /*endfinally*/];
+                case 12:
+                    core.info(results.length);
                     octokit = github.getOctokit(token);
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
@@ -5865,8 +5908,8 @@ function main() {
                                 text: "[https://scans.gradle.com/s/foo123bar](https://scans.gradle.com/s/foo123bar)",
                             }
                         })];
-                case 1:
-                    createResponse = _a.sent();
+                case 13:
+                    createResponse = _b.sent();
                     data = createResponse.data;
                     core.info("Status: " + data.status);
                     return [2 /*return*/];
@@ -5876,7 +5919,7 @@ function main() {
 }
 main()["catch"](function (error) {
     console.error(error.stack);
-    core.setFailed("Build scan annotations action: " + error.message);
+    core.setFailed("Build scan GitHub action: " + error.message);
 });
 
 
@@ -5951,6 +5994,14 @@ module.exports = require("os");;
 
 "use strict";
 module.exports = require("path");;
+
+/***/ }),
+
+/***/ 58:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("readline");;
 
 /***/ }),
 

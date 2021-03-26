@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
 
 async function main(): Promise<void> {
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || '';
@@ -17,6 +18,22 @@ async function main(): Promise<void> {
     core.info(`Reading file ${resolvedBuildScansPath}`)
     const content = fs.readFileSync(resolvedBuildScansPath, 'utf-8');
     core.info(`File content: ${content}`)
+
+    const results = [];
+    const rl = readline.createInterface({
+        input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
+        crlfDelay: Infinity
+    });
+
+    for await (const line of rl) {
+        results.push(line);
+    }
+
+    core.info(results.length);
+
+    // rl.on('line', function (line) {
+    //     results.push(line);
+    // });
 
     const octokit = github.getOctokit(token)
     const createResponse = await octokit.checks.create({
