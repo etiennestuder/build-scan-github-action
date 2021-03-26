@@ -20,7 +20,7 @@ async function main(): Promise<void> {
     // core.info(`Run id: ${github.context.runId}`);
     // core.info(`Run number: ${github.context.runNumber}`);
 
-    const octo = github.getOctokit(token)
+    const octo = github.getOctokit(token, {log: console});
     const response = await octo.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -37,9 +37,8 @@ async function main(): Promise<void> {
         });
     });
 
-    const result: any[] = await Promise.all(jobDetails)
-    core.info(`Result: ${result.length}`);
-    core.info(`Result: ${JSON.stringify(result[0])}`);
+    const result = await Promise.all(jobDetails)
+    core.info(`Result: ${result[0]}`);
 
     // core.info(`Job name: ${JSON.stringify(r.data.name)}`);
 

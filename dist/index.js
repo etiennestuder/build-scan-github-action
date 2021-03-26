@@ -5851,7 +5851,7 @@ function main() {
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
-                    octo = github.getOctokit(token);
+                    octo = github.getOctokit(token, { log: console });
                     return [4 /*yield*/, octo.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
@@ -5871,8 +5871,7 @@ function main() {
                     return [4 /*yield*/, Promise.all(jobDetails)];
                 case 2:
                     result = _b.sent();
-                    core.info("Result: " + result.length);
-                    core.info("Result: " + JSON.stringify(result[0]));
+                    core.info("Result: " + result[0]);
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
