@@ -9,7 +9,7 @@ async function main(): Promise<void> {
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
 
-    core.info(`Workflow: ${process.env[`GITHUB_WORKFLOW`]}`);
+    core.info(`Run id: ${process.env[`GITHUB_RUN_ID`]}`);
 
     // resolve path to file containing build scans
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
