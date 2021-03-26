@@ -30,17 +30,15 @@ async function main(): Promise<void> {
     });
     core.info(`Payload: ${JSON.stringify(response.data.jobs)}`);
 
-    const fff = response.data.jobs;
+    const fff:any[] = response.data.jobs;
     core.info(fff);
 
-    // for(const job in response.data.jobs){
-    //     const foo = await octo.actions.getJobForWorkflowRun({
-    //         owner: github.context.repo.owner,
-    //         repo: github.context.repo.repo,
-    //         job_id: job.id
-    //     });
-    //     core.info(`Job name: ${JSON.stringify(foo.data.name)}`);
-    // }
+    const r = await octo.actions.getJobForWorkflowRun({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        job_id: fff[0].id
+    });
+    core.info(`Job name: ${JSON.stringify(r.data.name)}`);
 
     // resolve path to file containing build scans
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
