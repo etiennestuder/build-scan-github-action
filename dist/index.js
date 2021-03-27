@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, octokit, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, output, title, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octokit, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, title, scanCount, summaryPart, summary, buildScanLinksMarkdown, output, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5924,20 +5924,19 @@ function main() {
                     getJobDetailsResponses = _b.sent();
                     core.info("Job names: " + getJobDetailsResponses.map(function (job) { return job.data.name; }).join(', '));
                     core.debug("Job details: " + JSON.stringify(getJobDetailsResponses));
-                    numOfBuildScans = buildScanLinks.length;
-                    summary = numOfBuildScans === 0 ? 'no build scans were published' :
-                        numOfBuildScans === 1 ? "a build scan was published" :
-                            numOfBuildScans + " build scans were published";
+                    title = jobs.length > 1 ? "Build scan [" + jobName + "]" : 'Build scan';
+                    scanCount = buildScanLinks.length;
+                    summaryPart = scanCount === 0 ? 'no build scans were published' : scanCount === 1 ? "a build scan was published" : scanCount + " build scans were published";
+                    summary = "While executing this job, " + summaryPart + ".\n\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).";
                     buildScanLinksMarkdown = buildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
-                    output = numOfBuildScans === 0 ? {
-                        title: "Build scan",
-                        summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com)."
+                    output = scanCount === 0 ? {
+                        title: title,
+                        summary: summary
                     } : {
-                        title: "Build scan",
-                        summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).",
+                        title: title,
+                        summary: summary,
                         text: buildScanLinksMarkdown,
                     };
-                    title = jobs.length > 1 ? "Build scan [" + jobName + "]" : 'Build scan';
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,

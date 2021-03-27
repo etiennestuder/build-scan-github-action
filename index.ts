@@ -67,26 +67,22 @@ async function main(): Promise<void> {
     core.debug(`Job details: ${JSON.stringify(getJobDetailsResponses)}`);
 
     // prepare dynamic content of build scan pane shown in GitHub actions
-    const numOfBuildScans = buildScanLinks.length;
-    const summary = numOfBuildScans === 0 ? 'no build scans were published' :
-        numOfBuildScans === 1 ? `a build scan was published` :
-            `${numOfBuildScans} build scans were published`
+    const title = jobs.length > 1 ? `Build scan [${jobName}]` : 'Build scan';
+    const scanCount = buildScanLinks.length;
+    const summaryPart = scanCount === 0 ? 'no build scans were published' : scanCount === 1 ? `a build scan was published` : `${scanCount} build scans were published`
+    const summary = `While executing this job, ${summaryPart}.\n\n
+Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).`;
     const buildScanLinksMarkdown = buildScanLinks.map(l => `[${l}](${l})`).join('\n');
-    const output = numOfBuildScans === 0 ? {
-        title: `Build scan`,
-        summary: `While executing this job, ${summary}.
-
-Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).`
+    const output = scanCount === 0 ? {
+        title: title,
+        summary: summary
     } : {
-        title: `Build scan`,
-        summary: `While executing this job, ${summary}.
-
-Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).`,
+        title: title,
+        summary: summary,
         text: buildScanLinksMarkdown,
     }
 
     // create build scan pane via Github check request
-    const title = jobs.length > 1 ? `Build scan [${jobName}]` : 'Build scan';
     const createResponse = await octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
