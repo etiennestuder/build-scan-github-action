@@ -5938,10 +5938,10 @@ function main() {
                             details_url: 'https://www.gradle.com',
                             status: 'completed',
                             conclusion: 'neutral',
-                            output: numOfBuildScans === 0 ? null : {
+                            output: {
                                 title: "Build scan",
                                 summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).",
-                                text: buildScanLinksMarkdown,
+                                text: numOfBuildScans === 0 ? null : buildScanLinksMarkdown,
                             }
                         })];
                 case 16:
