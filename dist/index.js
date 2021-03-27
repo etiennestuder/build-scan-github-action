@@ -5839,6 +5839,7 @@ var github = __nccwpck_require__(438);
 var fs = __nccwpck_require__(747);
 var path = __nccwpck_require__(622);
 var readline = __nccwpck_require__(58);
+var BUILD_SCAN_DESCRIPTION = "Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).";
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -5927,7 +5928,7 @@ function main() {
                     title = jobs.length > 1 ? "Build scan [" + jobName + "]" : 'Build scan';
                     scanCount = buildScanLinks.length;
                     summaryPart = scanCount === 0 ? 'no build scans were published' : scanCount === 1 ? "a single build scan was published" : scanCount + " build scans were published";
-                    summary = "While executing this job, " + summaryPart + ".\n\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).";
+                    summary = "While executing this job, " + summaryPart + ".\n\n" + BUILD_SCAN_DESCRIPTION;
                     buildScanLinksMarkdown = buildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
                     output = scanCount === 0 ? {
                         title: title,
@@ -5949,6 +5950,8 @@ function main() {
                         })];
                 case 16:
                     createResponse = _b.sent();
+                    // warn
+                    core.warning("While executing this job, " + summaryPart + ". " + buildScanLinksMarkdown);
                     data = createResponse.data;
                     core.info("Status: " + data.status);
                     return [2 /*return*/];
