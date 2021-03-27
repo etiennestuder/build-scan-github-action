@@ -11,24 +11,18 @@ async function main(): Promise<void> {
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
 
-    // core.info(`Run id: ${process.env[`GITHUB_RUN_ID`]}`);
-    // core.info(`Job: ${process.env[`GITHUB_JOB`]}`);
-    // core.info(`Action: ${process.env[`GITHUB_ACTION`]}`);
-    // core.info(`Workflow: ${github.context.workflow}`);
-    // core.info(`Action: ${github.context.action}`);
-    // core.info(`Job: ${github.context.job}`);
-    // core.info(`Run id: ${github.context.runId}`);
-    // core.info(`Run number: ${github.context.runNumber}`);
-
+    // get all jobs that are part of the current work flow run
     const octokit = github.getOctokit(token, {log: console});
     const listJobsResponse: any = await octokit.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        run_id: runId
+        run_id: runId,
+        filter: 'latest'
     });
 
     const jobs: any[] = listJobsResponse.data.jobs;
-    core.info(`Jobs: ${JSON.stringify(jobs)}`);
+    core.info(`Number of jobs in current work flow run: ${jobs.length}`);
+    core.debug(`Jobs: ${JSON.stringify(jobs)}`);
 
     const getJobDetailsPromises: Promise<any>[] = jobs.map(job => {
         return octokit.actions.getJobForWorkflowRun({
@@ -73,10 +67,11 @@ async function main(): Promise<void> {
     const buildScanLinksMarkdown = rawBuildScanLinks.map(l => `[${l}](${l})`).join('\n');
 
     // create build scan pane via Github check request
+    const title = 'Build scan';
     const createResponse = await octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
-        name: 'Build scan',
+        name: title,
         head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
         details_url: 'https://www.gradle.com',
         status: 'completed',

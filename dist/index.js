@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5855,12 +5855,14 @@ function main() {
                     return [4 /*yield*/, octokit.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
-                            run_id: runId
+                            run_id: runId,
+                            filter: 'latest'
                         })];
                 case 1:
                     listJobsResponse = _b.sent();
                     jobs = listJobsResponse.data.jobs;
-                    core.info("Jobs: " + JSON.stringify(jobs));
+                    core.info("Number of jobs in current work flow run: " + jobs.length);
+                    core.debug("Jobs: " + JSON.stringify(jobs));
                     getJobDetailsPromises = jobs.map(function (job) {
                         return octokit.actions.getJobForWorkflowRun({
                             owner: github.context.repo.owner,
@@ -5925,10 +5927,11 @@ function main() {
                         numOfBuildScans === 1 ? "a build scan was published" :
                             numOfBuildScans + " build scans were published";
                     buildScanLinksMarkdown = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
+                    title = 'Build scan';
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
-                            name: 'Build scan',
+                            name: title,
                             head_sha: github.context.payload.pull_request ? github.context.payload.pull_request.head.sha : github.context.sha,
                             details_url: 'https://www.gradle.com',
                             status: 'completed',
