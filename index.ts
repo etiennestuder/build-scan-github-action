@@ -83,7 +83,7 @@ async function main(): Promise<void> {
         details_url: 'https://www.gradle.com',
         status: 'completed',
         conclusion: 'neutral',
-        output: {
+        output: numOfBuildScans === 0 ? null : {
             title: `Build scan`,
             summary: `While executing this job, ${summary}.
 
