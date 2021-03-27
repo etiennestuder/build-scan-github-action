@@ -12,11 +12,14 @@ async function main(): Promise<void> {
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
 
-    // collect build scan links from file
+    const octokit = github.getOctokit(token);
+
+    // collect and store build scan links
     const buildScanLinks = [];
 
     // resolve path to file containing build scan links, and read build scan links line-by-line
     core.info(`Resolving file ${buildScansPath} from base directory ${baseDirectory}`);
+
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
     if (!fs.existsSync(resolvedBuildScansPath)) {
         core.info(`Cannot find file ${resolvedBuildScansPath}`);
@@ -34,13 +37,11 @@ async function main(): Promise<void> {
         }
     }
 
-    if (buildScanLinks.length === 0) {
-        core.warning(`File ${resolvedBuildScansPath} does not contain any build scan links`);
-        return;
-    }
+    core.info(`Collected ${buildScanLinks.length} build scan link(s): ${buildScanLinks.join(', ')}`);
 
-    // get all jobs that are part of the current work flow run
-    const octokit = github.getOctokit(token);
+    // get info about all jobs that are part of the current work flow run
+    core.info(`Retrieving info about jobs of current workflow run`);
+
     const listJobsResponse: any = await octokit.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
