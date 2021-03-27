@@ -27,15 +27,15 @@ async function main(): Promise<void> {
         input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
         crlfDelay: Infinity
     });
-    const rawBuildScanLinks = [];
+    const buildScanLinks = [];
     for await (const line of rl) {
         const trimmedLine = line.trim();
         if (trimmedLine.length > 0) {
-            rawBuildScanLinks.push(trimmedLine);
+            buildScanLinks.push(trimmedLine);
         }
     }
 
-    if (rawBuildScanLinks.length === 0) {
+    if (buildScanLinks.length === 0) {
         core.warning(`File ${resolvedBuildScansPath} does not contain any build scan links`);
         return;
     }
@@ -67,11 +67,11 @@ async function main(): Promise<void> {
     core.info(`Job details: ${JSON.stringify(getJobDetailsResponses)}`);
 
     // prepare dynamic content of build scan pane shown in GitHub actions
-    const numOfBuildScans = rawBuildScanLinks.length;
+    const numOfBuildScans = buildScanLinks.length;
     const summary = numOfBuildScans === 0 ? 'no build scans were published' :
         numOfBuildScans === 1 ? `a build scan was published` :
             `${numOfBuildScans} build scans were published`
-    const buildScanLinksMarkdown = rawBuildScanLinks.map(l => `[${l}](${l})`).join('\n');
+    const buildScanLinksMarkdown = buildScanLinks.map(l => `[${l}](${l})`).join('\n');
 
     // create build scan pane via Github check request
     const title = jobs.length > 1 ? `Build scan [${jobName}]` : 'Build scan';
