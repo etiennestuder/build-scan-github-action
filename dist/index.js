@@ -5843,7 +5843,7 @@ var BUILD_SCAN_DESCRIPTION = "Build scans are a persistent record of what happen
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, octokit, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, title, scanCount, summaryPart, summary, buildScanLinksMarkdown, output, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octokit, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, title, scanCount, summaryPart, summary, buildScanLinksMarkdown, output, createResponse, warn, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5950,8 +5950,8 @@ function main() {
                         })];
                 case 16:
                     createResponse = _b.sent();
-                    // warn
-                    core.warning("While executing this job, " + summaryPart + ". " + buildScanLinksMarkdown + ". https://gradle.com");
+                    warn = scanCount === 0 ? "While executing this job, " + summaryPart + "." : "While executing this job, " + summaryPart + ":\n" + buildScanLinks.join('\n');
+                    core.warning(warn);
                     data = createResponse.data;
                     core.info("Status: " + data.status);
                     return [2 /*return*/];

@@ -96,7 +96,8 @@ async function main(): Promise<void> {
     });
 
     // warn
-    core.warning(`While executing this job, ${summaryPart}. ${buildScanLinksMarkdown}. https://gradle.com`);
+    const warn = scanCount === 0 ? `While executing this job, ${summaryPart}.` : `While executing this job, ${summaryPart}:\n${buildScanLinks.join('\n')}`;
+    core.warning(warn);
 
     const data = createResponse.data;
     core.info(`Status: ${data.status}`);
