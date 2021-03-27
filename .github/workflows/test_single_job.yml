@@ -1,15 +1,15 @@
-name: "Integration Tests (single-job)"
+name: "Other Integration Tests"
 on: [push, workflow_dispatch]
 
 jobs:
-    multiple_build_scans_job:
+    another_build_scan_job:
         runs-on: ubuntu-latest
-        name: Test (multiple build scans)
+        name: Other Test (three build scans)
         steps:
             -   id: checkout
                 name: Check out project
                 uses: actions/checkout@v2
-            -   id: single-build-scan
+            -   id: three-build-scans
                 name: Collect build scans
                 uses: ./
                 with:
