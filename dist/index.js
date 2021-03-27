@@ -5951,7 +5951,7 @@ function main() {
                 case 16:
                     createResponse = _b.sent();
                     // warn
-                    core.warning("While executing this job, " + summaryPart + ". " + buildScanLinksMarkdown);
+                    core.warning("While executing this job, " + summaryPart + ". " + buildScanLinksMarkdown + ". <a href='https://gradle.com'>Gradle</a>");
                     data = createResponse.data;
                     core.info("Status: " + data.status);
                     return [2 /*return*/];
