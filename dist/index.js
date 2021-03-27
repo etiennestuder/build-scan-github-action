@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octokit, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5851,6 +5851,7 @@ function main() {
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
+                    octokit = github.getOctokit(token);
                     buildScanLinks = [];
                     // resolve path to file containing build scan links, and read build scan links line-by-line
                     core.info("Resolving file " + buildScansPath + " from base directory " + baseDirectory);
@@ -5897,11 +5898,9 @@ function main() {
                     return [7 /*endfinally*/];
                 case 12: return [7 /*endfinally*/];
                 case 13:
-                    if (buildScanLinks.length === 0) {
-                        core.warning("File " + resolvedBuildScansPath + " does not contain any build scan links");
-                        return [2 /*return*/];
-                    }
-                    octokit = github.getOctokit(token);
+                    core.info("Collected " + buildScanLinks.length + " build scan link(s): " + buildScanLinks.join(', '));
+                    // get info about all jobs that are part of the current work flow run
+                    core.info("Retrieving info about jobs of current workflow run");
                     return [4 /*yield*/, octokit.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
