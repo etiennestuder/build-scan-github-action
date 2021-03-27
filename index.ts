@@ -96,7 +96,7 @@ async function main(): Promise<void> {
     });
 
     // warn
-    core.warning(`While executing this job, ${summaryPart}. ${buildScanLinksMarkdown}. <a href='https://gradle.com'>Gradle</a>`);
+    core.warning(`While executing this job, ${summaryPart}. ${buildScanLinksMarkdown}. https://gradle.com`);
 
     const data = createResponse.data;
     core.info(`Status: ${data.status}`);
