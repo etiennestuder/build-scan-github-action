@@ -1,4 +1,4 @@
-name: "Integration Tests"
+name: "Integration Tests (multi-job)"
 on: [push, workflow_dispatch]
 
 jobs:

@@ -1,0 +1,17 @@
+name: "Integration Tests (single-job)"
+on: [push, workflow_dispatch]
+
+jobs:
+    multiple_build_scans_job:
+        runs-on: ubuntu-latest
+        name: Test (multiple build scans)
+        steps:
+            -   id: checkout
+                name: Check out project
+                uses: actions/checkout@v2
+            -   id: single-build-scan
+                name: Collect build scans
+                uses: ./
+                with:
+                    build-scans-path: './__tests__/data/multiple-build-scans'
+                    token: ${{ secrets.GITHUB_TOKEN }}
