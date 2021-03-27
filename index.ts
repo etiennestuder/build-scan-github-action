@@ -69,7 +69,7 @@ async function main(): Promise<void> {
     // prepare dynamic content of build scan pane shown in GitHub actions
     const title = jobs.length > 1 ? `Build scan [${jobName}]` : 'Build scan';
     const scanCount = buildScanLinks.length;
-    const summaryPart = scanCount === 0 ? 'no build scans were published' : scanCount === 1 ? `a build scan was published` : `${scanCount} build scans were published`
+    const summaryPart = scanCount === 0 ? 'no build scans were published' : scanCount === 1 ? `a single build scan was published` : `${scanCount} build scans were published`
     const summary = `While executing this job, ${summaryPart}.\n\n
 Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).`;
     const buildScanLinksMarkdown = buildScanLinks.map(l => `[${l}](${l})`).join('\n');
