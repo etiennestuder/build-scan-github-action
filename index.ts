@@ -73,7 +73,7 @@ async function main(): Promise<void> {
     const scanCount = buildScanLinks.length;
     const summaryPart = scanCount === 0 ? 'no build scans were published' : scanCount === 1 ? `a single build scan was published` : `${scanCount} build scans were published`
     const summary = `While executing this job, ${summaryPart}.\n\n${BUILD_SCAN_DESCRIPTION}`;
-    const buildScanLinksMarkdown = buildScanLinks.map(l => `[${l}](${l})`).join('\n');
+    const buildScanLinksMarkdown = buildScanLinks.map(l => `[${l}](${l})`).join(' ');
     const output = scanCount === 0 ? {
         title: title,
         summary: summary
@@ -95,7 +95,7 @@ async function main(): Promise<void> {
         output: output
     });
 
-    // warn
+    // log warning to have build scan links appear on the summary page (unfortunately, not rendered as a link)
     const warn = scanCount === 0 ? `While executing this job, ${summaryPart}.` : `While executing this job, ${summaryPart}:\n${buildScanLinks.join('\n')}`;
     core.warning(warn);
 
