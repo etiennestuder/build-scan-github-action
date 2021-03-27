@@ -12,7 +12,7 @@ async function main(): Promise<void> {
     const token = core.getInput('token');
 
     // get all jobs that are part of the current work flow run
-    const octokit = github.getOctokit(token, {log: console});
+    const octokit = github.getOctokit(token);
     const listJobsResponse: any = await octokit.actions.listJobsForWorkflowRun({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -24,6 +24,7 @@ async function main(): Promise<void> {
     core.info(`Number of jobs in current work flow run: ${jobs.length}`);
     core.debug(`Jobs: ${JSON.stringify(jobs)}`);
 
+    // get details for each job of the current work flow run
     const getJobDetailsPromises: Promise<any>[] = jobs.map(job => {
         return octokit.actions.getJobForWorkflowRun({
             owner: github.context.repo.owner,

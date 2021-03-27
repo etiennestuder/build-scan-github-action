@@ -5851,7 +5851,7 @@ function main() {
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
-                    octokit = github.getOctokit(token, { log: console });
+                    octokit = github.getOctokit(token);
                     return [4 /*yield*/, octokit.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
