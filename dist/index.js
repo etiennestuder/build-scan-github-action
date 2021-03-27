@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, resolvedBuildScansPath, rl, buildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5851,53 +5851,52 @@ function main() {
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
-                    // resolve path to file containing build scans, and abort if file not found
+                    buildScanLinks = [];
+                    // resolve path to file containing build scan links, and read build scan links line-by-line
                     core.info("Resolving file " + buildScansPath + " from base directory " + baseDirectory);
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
-                    if (!fs.existsSync(resolvedBuildScansPath)) {
-                        core.warning("File " + resolvedBuildScansPath + " does not exist");
-                        return [2 /*return*/];
-                    }
-                    // read build scan links line-by-line from file, and abort if no build scan links present
+                    if (!!fs.existsSync(resolvedBuildScansPath)) return [3 /*break*/, 1];
+                    core.info("Cannot find file " + resolvedBuildScansPath);
+                    return [3 /*break*/, 13];
+                case 1:
                     core.info("Reading file " + resolvedBuildScansPath);
                     rl = readline.createInterface({
                         input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
                         crlfDelay: Infinity
                     });
-                    buildScanLinks = [];
-                    _b.label = 1;
-                case 1:
-                    _b.trys.push([1, 6, 7, 12]);
-                    rl_1 = __asyncValues(rl);
                     _b.label = 2;
-                case 2: return [4 /*yield*/, rl_1.next()];
-                case 3:
-                    if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 5];
+                case 2:
+                    _b.trys.push([2, 7, 8, 13]);
+                    rl_1 = __asyncValues(rl);
+                    _b.label = 3;
+                case 3: return [4 /*yield*/, rl_1.next()];
+                case 4:
+                    if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 6];
                     line = rl_1_1.value;
                     trimmedLine = line.trim();
                     if (trimmedLine.length > 0) {
                         buildScanLinks.push(trimmedLine);
                     }
-                    _b.label = 4;
-                case 4: return [3 /*break*/, 2];
-                case 5: return [3 /*break*/, 12];
-                case 6:
+                    _b.label = 5;
+                case 5: return [3 /*break*/, 3];
+                case 6: return [3 /*break*/, 13];
+                case 7:
                     e_1_1 = _b.sent();
                     e_1 = { error: e_1_1 };
-                    return [3 /*break*/, 12];
-                case 7:
-                    _b.trys.push([7, , 10, 11]);
-                    if (!(rl_1_1 && !rl_1_1.done && (_a = rl_1["return"]))) return [3 /*break*/, 9];
-                    return [4 /*yield*/, _a.call(rl_1)];
+                    return [3 /*break*/, 13];
                 case 8:
+                    _b.trys.push([8, , 11, 12]);
+                    if (!(rl_1_1 && !rl_1_1.done && (_a = rl_1["return"]))) return [3 /*break*/, 10];
+                    return [4 /*yield*/, _a.call(rl_1)];
+                case 9:
                     _b.sent();
-                    _b.label = 9;
-                case 9: return [3 /*break*/, 11];
-                case 10:
+                    _b.label = 10;
+                case 10: return [3 /*break*/, 12];
+                case 11:
                     if (e_1) throw e_1.error;
                     return [7 /*endfinally*/];
-                case 11: return [7 /*endfinally*/];
-                case 12:
+                case 12: return [7 /*endfinally*/];
+                case 13:
                     if (buildScanLinks.length === 0) {
                         core.warning("File " + resolvedBuildScansPath + " does not contain any build scan links");
                         return [2 /*return*/];
@@ -5909,7 +5908,7 @@ function main() {
                             run_id: runId,
                             filter: 'latest'
                         })];
-                case 13:
+                case 14:
                     listJobsResponse = _b.sent();
                     jobs = listJobsResponse.data.jobs;
                     core.info("Number of jobs in current work flow run: " + jobs.length);
@@ -5922,7 +5921,7 @@ function main() {
                         });
                     });
                     return [4 /*yield*/, Promise.all(getJobDetailsPromises)];
-                case 14:
+                case 15:
                     getJobDetailsResponses = _b.sent();
                     core.info("Job names: " + getJobDetailsResponses.map(function (job) { return job.data.name; }).join(', '));
                     core.debug("Job details: " + JSON.stringify(getJobDetailsResponses));
@@ -5946,7 +5945,7 @@ function main() {
                                 text: buildScanLinksMarkdown,
                             }
                         })];
-                case 15:
+                case 16:
                     createResponse = _b.sent();
                     data = createResponse.data;
                     core.info("Status: " + data.status);

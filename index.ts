@@ -12,26 +12,25 @@ async function main(): Promise<void> {
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
 
-    // resolve path to file containing build scans, and abort if file not found
+    // collect build scan links from file
+    const buildScanLinks = [];
+
+    // resolve path to file containing build scan links, and read build scan links line-by-line
     core.info(`Resolving file ${buildScansPath} from base directory ${baseDirectory}`);
     const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
-
     if (!fs.existsSync(resolvedBuildScansPath)) {
-        core.warning(`File ${resolvedBuildScansPath} does not exist`);
-        return;
-    }
-
-    // read build scan links line-by-line from file, and abort if no build scan links present
-    core.info(`Reading file ${resolvedBuildScansPath}`)
-    const rl = readline.createInterface({
-        input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
-        crlfDelay: Infinity
-    });
-    const buildScanLinks = [];
-    for await (const line of rl) {
-        const trimmedLine = line.trim();
-        if (trimmedLine.length > 0) {
-            buildScanLinks.push(trimmedLine);
+        core.info(`Cannot find file ${resolvedBuildScansPath}`);
+    } else {
+        core.info(`Reading file ${resolvedBuildScansPath}`)
+        const rl = readline.createInterface({
+            input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
+            crlfDelay: Infinity
+        });
+        for await (const line of rl) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.length > 0) {
+                buildScanLinks.push(trimmedLine);
+            }
         }
     }
 
