@@ -5873,10 +5873,8 @@ function main() {
                     return [4 /*yield*/, Promise.all(getJobDetailsPromises)];
                 case 2:
                     getJobDetailsResponses = _b.sent();
-                    getJobDetailsResponses.forEach(function (d) {
-                        core.info("R: " + JSON.stringify(d.data));
-                        core.info("Result: " + d.data.name);
-                    });
+                    core.info("Job names: " + getJobDetailsResponses.map(function (job) { return job.data.name; }).join(', '));
+                    core.info("Job details: " + JSON.stringify(getJobDetailsResponses));
                     resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
                     if (!fs.existsSync(resolvedBuildScansPath)) {
                         core.warning("File " + resolvedBuildScansPath + " does not exist");
