@@ -5925,7 +5925,7 @@ function main() {
                 case 14:
                     getJobDetailsResponses = _b.sent();
                     core.info("Job names: " + getJobDetailsResponses.map(function (job) { return job.data.name; }).join(', '));
-                    core.info("Job details: " + JSON.stringify(getJobDetailsResponses));
+                    core.debug("Job details: " + JSON.stringify(getJobDetailsResponses));
                     numOfBuildScans = buildScanLinks.length;
                     summary = numOfBuildScans === 0 ? 'no build scans were published' :
                         numOfBuildScans === 1 ? "a build scan was published" :

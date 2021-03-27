@@ -64,7 +64,7 @@ async function main(): Promise<void> {
 
     const getJobDetailsResponses: any[] = await Promise.all(getJobDetailsPromises)
     core.info(`Job names: ${getJobDetailsResponses.map(job => job.data.name).join(', ')}`);
-    core.info(`Job details: ${JSON.stringify(getJobDetailsResponses)}`);
+    core.debug(`Job details: ${JSON.stringify(getJobDetailsResponses)}`);
 
     // prepare dynamic content of build scan pane shown in GitHub actions
     const numOfBuildScans = buildScanLinks.length;
