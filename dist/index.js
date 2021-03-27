@@ -5929,7 +5929,7 @@ function main() {
                     scanCount = buildScanLinks.length;
                     summaryPart = scanCount === 0 ? 'no build scans were published' : scanCount === 1 ? "a single build scan was published" : scanCount + " build scans were published";
                     summary = "While executing this job, " + summaryPart + ".\n\n" + BUILD_SCAN_DESCRIPTION;
-                    buildScanLinksMarkdown = buildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join(' ');
+                    buildScanLinksMarkdown = buildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
                     output = scanCount === 0 ? {
                         title: title,
                         summary: summary
@@ -5950,7 +5950,7 @@ function main() {
                         })];
                 case 16:
                     createResponse = _b.sent();
-                    warn = scanCount === 0 ? "While executing this job, " + summaryPart + "." : "While executing this job, " + summaryPart + ":\n" + buildScanLinks.join('\n');
+                    warn = scanCount === 0 ? "While executing this job, " + summaryPart + "." : "While executing this job, " + summaryPart + ":\n" + buildScanLinks.join(' ');
                     core.warning(warn);
                     data = createResponse.data;
                     core.info("Status: " + data.status);
