@@ -5,11 +5,40 @@ const path = require('path');
 const readline = require('readline');
 
 async function main(): Promise<void> {
+    // collect environment and inputs
     const runId = process.env[`GITHUB_RUN_ID`];
     const jobName = process.env[`GITHUB_JOB`];
     const baseDirectory = process.env[`GITHUB_WORKSPACE`] || '';
     const buildScansPath = core.getInput('build-scans-path') || './build-scans';
     const token = core.getInput('token');
+
+    // resolve path to file containing build scans, and abort if file not found
+    core.info(`Resolving file ${buildScansPath} from base directory ${baseDirectory}`);
+    const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
+
+    if (!fs.existsSync(resolvedBuildScansPath)) {
+        core.warning(`File ${resolvedBuildScansPath} does not exist`);
+        return;
+    }
+
+    // read build scan links line-by-line from file, and abort if no build scan links present
+    core.info(`Reading file ${resolvedBuildScansPath}`)
+    const rl = readline.createInterface({
+        input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
+        crlfDelay: Infinity
+    });
+    const rawBuildScanLinks = [];
+    for await (const line of rl) {
+        const trimmedLine = line.trim();
+        if (trimmedLine.length > 0) {
+            rawBuildScanLinks.push(trimmedLine);
+        }
+    }
+
+    if (rawBuildScanLinks.length === 0) {
+        core.warning(`File ${resolvedBuildScansPath} does not contain any build scan links`);
+        return;
+    }
 
     // get all jobs that are part of the current work flow run
     const octokit = github.getOctokit(token);
@@ -36,27 +65,6 @@ async function main(): Promise<void> {
     const getJobDetailsResponses: any[] = await Promise.all(getJobDetailsPromises)
     core.info(`Job names: ${getJobDetailsResponses.map(job => job.data.name).join(', ')}`);
     core.info(`Job details: ${JSON.stringify(getJobDetailsResponses)}`);
-
-    // resolve path to file containing build scans
-    const resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
-    if (!fs.existsSync(resolvedBuildScansPath)) {
-        core.warning(`File ${resolvedBuildScansPath} does not exist`);
-        return;
-    }
-
-    // read build scan links line-by-line from file
-    core.info(`Reading file ${resolvedBuildScansPath}`)
-    const rl = readline.createInterface({
-        input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
-        crlfDelay: Infinity
-    });
-    const rawBuildScanLinks = [];
-    for await (const line of rl) {
-        const trimmedLine = line.trim();
-        if (trimmedLine.length > 0) {
-            rawBuildScanLinks.push(trimmedLine);
-        }
-    }
 
     // prepare dynamic content of build scan pane shown in GitHub actions
     const numOfBuildScans = rawBuildScanLinks.length;

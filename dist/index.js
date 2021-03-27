@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, resolvedBuildScansPath, rl, rawBuildScanLinks, rl_1, rl_1_1, line, trimmedLine, e_1_1, octokit, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5851,6 +5851,57 @@ function main() {
                     baseDirectory = process.env["GITHUB_WORKSPACE"] || '';
                     buildScansPath = core.getInput('build-scans-path') || './build-scans';
                     token = core.getInput('token');
+                    // resolve path to file containing build scans, and abort if file not found
+                    core.info("Resolving file " + buildScansPath + " from base directory " + baseDirectory);
+                    resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
+                    if (!fs.existsSync(resolvedBuildScansPath)) {
+                        core.warning("File " + resolvedBuildScansPath + " does not exist");
+                        return [2 /*return*/];
+                    }
+                    // read build scan links line-by-line from file, and abort if no build scan links present
+                    core.info("Reading file " + resolvedBuildScansPath);
+                    rl = readline.createInterface({
+                        input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
+                        crlfDelay: Infinity
+                    });
+                    rawBuildScanLinks = [];
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 6, 7, 12]);
+                    rl_1 = __asyncValues(rl);
+                    _b.label = 2;
+                case 2: return [4 /*yield*/, rl_1.next()];
+                case 3:
+                    if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 5];
+                    line = rl_1_1.value;
+                    trimmedLine = line.trim();
+                    if (trimmedLine.length > 0) {
+                        rawBuildScanLinks.push(trimmedLine);
+                    }
+                    _b.label = 4;
+                case 4: return [3 /*break*/, 2];
+                case 5: return [3 /*break*/, 12];
+                case 6:
+                    e_1_1 = _b.sent();
+                    e_1 = { error: e_1_1 };
+                    return [3 /*break*/, 12];
+                case 7:
+                    _b.trys.push([7, , 10, 11]);
+                    if (!(rl_1_1 && !rl_1_1.done && (_a = rl_1["return"]))) return [3 /*break*/, 9];
+                    return [4 /*yield*/, _a.call(rl_1)];
+                case 8:
+                    _b.sent();
+                    _b.label = 9;
+                case 9: return [3 /*break*/, 11];
+                case 10:
+                    if (e_1) throw e_1.error;
+                    return [7 /*endfinally*/];
+                case 11: return [7 /*endfinally*/];
+                case 12:
+                    if (rawBuildScanLinks.length === 0) {
+                        core.warning("File " + resolvedBuildScansPath + " does not contain any build scan links");
+                        return [2 /*return*/];
+                    }
                     octokit = github.getOctokit(token);
                     return [4 /*yield*/, octokit.actions.listJobsForWorkflowRun({
                             owner: github.context.repo.owner,
@@ -5858,7 +5909,7 @@ function main() {
                             run_id: runId,
                             filter: 'latest'
                         })];
-                case 1:
+                case 13:
                     listJobsResponse = _b.sent();
                     jobs = listJobsResponse.data.jobs;
                     core.info("Number of jobs in current work flow run: " + jobs.length);
@@ -5871,61 +5922,16 @@ function main() {
                         });
                     });
                     return [4 /*yield*/, Promise.all(getJobDetailsPromises)];
-                case 2:
+                case 14:
                     getJobDetailsResponses = _b.sent();
                     core.info("Job names: " + getJobDetailsResponses.map(function (job) { return job.data.name; }).join(', '));
                     core.info("Job details: " + JSON.stringify(getJobDetailsResponses));
-                    resolvedBuildScansPath = path.resolve(baseDirectory, buildScansPath);
-                    if (!fs.existsSync(resolvedBuildScansPath)) {
-                        core.warning("File " + resolvedBuildScansPath + " does not exist");
-                        return [2 /*return*/];
-                    }
-                    // read build scan links line-by-line from file
-                    core.info("Reading file " + resolvedBuildScansPath);
-                    rl = readline.createInterface({
-                        input: fs.createReadStream(resolvedBuildScansPath, 'utf-8'),
-                        crlfDelay: Infinity
-                    });
-                    rawBuildScanLinks = [];
-                    _b.label = 3;
-                case 3:
-                    _b.trys.push([3, 8, 9, 14]);
-                    rl_1 = __asyncValues(rl);
-                    _b.label = 4;
-                case 4: return [4 /*yield*/, rl_1.next()];
-                case 5:
-                    if (!(rl_1_1 = _b.sent(), !rl_1_1.done)) return [3 /*break*/, 7];
-                    line = rl_1_1.value;
-                    trimmedLine = line.trim();
-                    if (trimmedLine.length > 0) {
-                        rawBuildScanLinks.push(trimmedLine);
-                    }
-                    _b.label = 6;
-                case 6: return [3 /*break*/, 4];
-                case 7: return [3 /*break*/, 14];
-                case 8:
-                    e_1_1 = _b.sent();
-                    e_1 = { error: e_1_1 };
-                    return [3 /*break*/, 14];
-                case 9:
-                    _b.trys.push([9, , 12, 13]);
-                    if (!(rl_1_1 && !rl_1_1.done && (_a = rl_1["return"]))) return [3 /*break*/, 11];
-                    return [4 /*yield*/, _a.call(rl_1)];
-                case 10:
-                    _b.sent();
-                    _b.label = 11;
-                case 11: return [3 /*break*/, 13];
-                case 12:
-                    if (e_1) throw e_1.error;
-                    return [7 /*endfinally*/];
-                case 13: return [7 /*endfinally*/];
-                case 14:
                     numOfBuildScans = rawBuildScanLinks.length;
                     summary = numOfBuildScans === 0 ? 'no build scans were published' :
                         numOfBuildScans === 1 ? "a build scan was published" :
                             numOfBuildScans + " build scans were published";
                     buildScanLinksMarkdown = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
-                    title = jobs.length > 1 ? "Build scan " + jobName : 'Build scan';
+                    title = jobs.length > 1 ? "Build scan [" + jobName + "]" : 'Build scan';
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
