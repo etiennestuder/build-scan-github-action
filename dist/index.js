@@ -5842,7 +5842,7 @@ var readline = __nccwpck_require__(58);
 function main() {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var runId, jobName, baseDirectory, buildScansPath, token, octokit, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, title, createResponse, data;
+        var runId, jobName, baseDirectory, buildScansPath, token, octokit, buildScanLinks, resolvedBuildScansPath, rl, rl_1, rl_1_1, line, trimmedLine, e_1_1, listJobsResponse, jobs, getJobDetailsPromises, getJobDetailsResponses, numOfBuildScans, summary, buildScanLinksMarkdown, output, title, createResponse, data;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -5929,6 +5929,14 @@ function main() {
                         numOfBuildScans === 1 ? "a build scan was published" :
                             numOfBuildScans + " build scans were published";
                     buildScanLinksMarkdown = buildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
+                    output = numOfBuildScans === 0 ? {
+                        title: "Build scan",
+                        summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com)."
+                    } : {
+                        title: "Build scan",
+                        summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).",
+                        text: buildScanLinksMarkdown,
+                    };
                     title = jobs.length > 1 ? "Build scan [" + jobName + "]" : 'Build scan';
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
@@ -5938,11 +5946,7 @@ function main() {
                             details_url: 'https://www.gradle.com',
                             status: 'completed',
                             conclusion: 'neutral',
-                            output: {
-                                title: "Build scan",
-                                summary: "While executing this job, " + summary + ".\n\nBuild scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).",
-                                text: numOfBuildScans === 0 ? '' : buildScanLinksMarkdown,
-                            }
+                            output: output
                         })];
                 case 16:
                     createResponse = _b.sent();

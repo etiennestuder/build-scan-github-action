@@ -72,6 +72,18 @@ async function main(): Promise<void> {
         numOfBuildScans === 1 ? `a build scan was published` :
             `${numOfBuildScans} build scans were published`
     const buildScanLinksMarkdown = buildScanLinks.map(l => `[${l}](${l})`).join('\n');
+    const output = numOfBuildScans === 0 ? {
+        title: `Build scan`,
+        summary: `While executing this job, ${summary}.
+
+Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).`
+    } : {
+        title: `Build scan`,
+        summary: `While executing this job, ${summary}.
+
+Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).`,
+        text: buildScanLinksMarkdown,
+    }
 
     // create build scan pane via Github check request
     const title = jobs.length > 1 ? `Build scan [${jobName}]` : 'Build scan';
@@ -83,13 +95,7 @@ async function main(): Promise<void> {
         details_url: 'https://www.gradle.com',
         status: 'completed',
         conclusion: 'neutral',
-        output: {
-            title: `Build scan`,
-            summary: `While executing this job, ${summary}.
-
-Build scans are a persistent record of what happened in your Gradle or Maven build, visualized in your browser. Learn more about build scans at [gradle.com](https://gradle.com/gradle-enterprise-solution-overview/build-scan-root-cause-analysis-data), and more about the free service at [scans.gradle.com](https://scans.gradle.com).`,
-            text: numOfBuildScans === 0 ? '' : buildScanLinksMarkdown,
-        }
+        output: output
     });
 
     const data = createResponse.data;
