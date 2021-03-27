@@ -66,7 +66,7 @@ async function main(): Promise<void> {
     const buildScanLinksMarkdown = rawBuildScanLinks.map(l => `[${l}](${l})`).join('\n');
 
     // create build scan pane via Github check request
-    const title = 'Build scan';
+    const title = jobs.length > 1 ? `Build scan ${jobName}` : 'Build scan';
     const createResponse = await octokit.checks.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,

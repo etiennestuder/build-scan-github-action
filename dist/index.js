@@ -5925,7 +5925,7 @@ function main() {
                         numOfBuildScans === 1 ? "a build scan was published" :
                             numOfBuildScans + " build scans were published";
                     buildScanLinksMarkdown = rawBuildScanLinks.map(function (l) { return "[" + l + "](" + l + ")"; }).join('\n');
-                    title = 'Build scan';
+                    title = jobs.length > 1 ? "Build scan " + jobName : 'Build scan';
                     return [4 /*yield*/, octokit.checks.create({
                             owner: github.context.repo.owner,
                             repo: github.context.repo.repo,
